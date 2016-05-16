@@ -1,0 +1,88 @@
+Installing Laravel on a Ubuntu Server
+
+
+1. Apache
+	sudo apt-get install apache2
+
+2. MySQL
+	sudo apt-get install mysql-server
+
+Optional. Make MySQL accessible remotely
+	sudo nano \etc\mysql\my.cnf
+		Comment out the line “bind: 127.0.0.1”
+	mysql -p -u root
+		GRANT ALL PRIVILEGES ON *.* TO ‘root’@‘%’;
+		SET PASSWORD FOR ‘root’@‘%’ = PASSWORD(‘<Password>’);
+
+3. PHP5
+	sudo apt-get install php5 php5-imap php5-curl php5-mcrypt
+	sudo php5enmod mcrypt
+	sudo php5enmod imap
+	sudo service apache2 restart
+
+Optional. PhP Myadmin
+	sudo apt-get install phpmyadmin
+
+4. Curl 
+	sudo apt-get install curl
+
+5. Composer
+	curl -sS https://getcomposer.org/installer | php
+	sudo mv composer.phar /usr/local/bin/composer
+
+6. Enable apache mod_rewrite
+	sudo a2enmod rewrite
+	sudo service apache2 restart
+
+7. Allow apache overrides
+	sudo nano /etc/apache2/apache2.conf
+		(Change the instances “Directory /“ and “Directory /var/www/“ from “AllowOverride none” to “AllowOverride all”)
+	sudo service apache2 restart
+
+8. Install Laravel (generally in /var/www/html/)
+	cd /var/www/html
+	sudo composer create-project laravel/laravel “your project name” -—prefer-dist
+
+9. Set document root for web server
+	sudo nano /etc/apache2/sites-enabled/000-default.conf
+		(Set “Document Root” to /var/www/html/“your project name”/public)
+	sudo service apache2 restart
+
+10. Change Permission on web server folders (generally run from /var/www/html)
+	cd /var/www/html
+	sudo usermod -a -G www-data “user”
+	sudo chgrp -R www-data “your project name”/storage
+	sudo chown -R :www-data “your project name”/storage
+	sudo chmod -R 775 “your project name”/storage
+
+11. Overwrite the Following
+	database/migrations
+	app/
+	resources/
+	config/
+	public/
+	composer.json
+
+12. Prep for composer update
+	sudo nano /var/www/html/“your project name”/config/app.php
+		comment out line 138
+			// Collective\Html\HtmlServiceProvider::class,
+
+13. Update Composer for dependancies
+	sudo composer update
+	
+14. Run Migrations
+	cd /var/www/html/“your project name”
+	sudo php artisan migrate
+
+15. Undo step 12
+	sudo nano /var/www/html/“your project name”/config/app.php
+		uncomment line 138
+ 			Collective\Html\HtmlServiceProvider::class,
+
+
+Optional - SSL
+
+	https://www.maketecheasier.com/apache-server-ssl-support/
+
+	sudo ufw allow 443/tcp
