@@ -12,7 +12,7 @@ Thank you for considering contributing to WISPBill. We don't have a guide yet fo
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within WISPBill post it has an issue 
+If you discover a security vulnerability within WISPBill post it as an issue 
 
 ## License
 
