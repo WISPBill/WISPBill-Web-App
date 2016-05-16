@@ -1,38 +1,23 @@
 <?php
 
-/*
- * Taken from
- * https://github.com/laravel/framework/blob/5.2/src/Illuminate/Auth/Console/stubs/make/controllers/HomeController.stub
- */
+class HomeController extends BaseController {
 
-namespace App\Http\Controllers;
+	/*
+	|--------------------------------------------------------------------------
+	| Default Home Controller
+	|--------------------------------------------------------------------------
+	|
+	| You may wish to use controllers instead of, or in addition to, Closure
+	| based routes. That's great! Here is an example controller method to
+	| get you started. To route to this controller, just add the route:
+	|
+	|	Route::get('/', 'HomeController@showWelcome');
+	|
+	*/
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
+	public function showWelcome()
+	{
+		return View::make('hello');
+	}
 
-/**
- * Class HomeController
- * @package App\Http\Controllers
- */
-class HomeController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        return view('home');
-    }
 }

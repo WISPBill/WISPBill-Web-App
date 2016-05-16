@@ -1,73 +1,72 @@
-@extends('layouts.auth')
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>WiSPdb</title>
 
-@section('htmlheader_title')
-    Log in
-@endsection
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
-@section('content')
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
-        </div><!-- /.login-logo -->
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+	<div class="container">
+		<div class="col-sm-offset-2 col-sm-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Login
+				</div>
 
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+				<div class="panel-body">
+					<!-- Display Validation Errors -->
+					@include('common.errors')
 
-    <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
-    <form action="{{ url('/login') }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-        </div>
-        <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" name="password"/>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-        </div>
-        <div class="row">
-            <div class="col-xs-8">
-                <div class="checkbox icheck">
-                    <label>
-                        <input type="checkbox" name="remember"> Remember Me
-                    </label>
-                </div>
-            </div><!-- /.col -->
-            <div class="col-xs-4">
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-            </div><!-- /.col -->
-        </div>
-    </form>
+					<!-- New Task Form -->
+					<form action="/auth/login" method="POST" class="form-horizontal">
+						{{ csrf_field() }}
 
-    @include('auth.partials.social_login')
+						<!-- E-Mail Address -->
+						<div class="form-group">
+							<label for="email" class="col-sm-3 control-label">E-Mail</label>
 
-    <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
-    <a href="{{ url('/register') }}" class="text-center">Register a new membership</a>
+							<div class="col-sm-6">
+								<input type="email" name="email" class="form-control" value="{{ old('email') }}">
+							</div>
+						</div>
 
-</div><!-- /.login-box-body -->
+						<!-- Password -->
+						<div class="form-group">
+							<label for="password" class="col-sm-3 control-label">Password</label>
 
-</div><!-- /.login-box -->
+							<div class="col-sm-6">
+								<input type="password" name="password" class="form-control">
+							</div>
+						</div>
 
-    @include('layouts.partials.scripts_auth')
-
-    <script>
-        $(function () {
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
-        });
-    </script>
+						<!-- Login Button -->
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default">
+									<i class="fa fa-btn fa-sign-in"></i>Login
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
-
-@endsection
+</html>
