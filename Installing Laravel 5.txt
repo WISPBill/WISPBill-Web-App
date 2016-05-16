@@ -71,10 +71,15 @@ Optional. PhP Myadmin
 13. Update Composer for dependancies
 	sudo composer update
 	
-14. Undo step 12
+14. Run Migrations
+	cd /var/www/html/“your project name”
+	sudo php artisan migrate
+
+15. Undo step 12
 	sudo nano /var/www/html/“your project name”/config/app.php
 		uncomment line 138
  			Collective\Html\HtmlServiceProvider::class,
+
 
 Optional - SSL
 
