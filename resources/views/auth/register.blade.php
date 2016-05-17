@@ -53,14 +53,25 @@
                     <input type="password" class="form-control" placeholder="Retype password" name="password_confirmation"/>
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
+                    <div class="form-group has-feedback">
+                  <select class="form-control" name="skin" required>
+					<option value='' selected disabled>Please Select a Skin</option>
+                    <option value="skin-blue">Blue</option>
+                    <option value="skin-blue-light">Light Blue</option>
+                    <option value="skin-yellow">Yellow</option>
+                    <option value="skin-yellow-light">Light Yellow</option>
+                    <option value="skin-green">Green</option>
+                    <option value="skin-green-light">Light Green</option>
+                    <option value="skin-purple">Purple</option>
+                    <option value="skin-purple-light">Light Purple</option>
+                    <option value="skin-red">Red</option>
+                    <option value="skin-red-light">Light Red</option>
+                    <option value="skin-black">Black</option>
+                    <option value="skin-black-light">White</option>
+                  </select>
+                </div>
                 <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>
-                    </div><!-- /.col -->
+                    
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                     </div><!-- /.col -->
