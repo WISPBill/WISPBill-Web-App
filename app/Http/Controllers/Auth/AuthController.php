@@ -7,7 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-
+use Intervention\Image\Facades\Image as Image;
 class AuthController extends Controller
 {
     /*
@@ -53,6 +53,7 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
             'skin' => 'required|in:skin-blue,skin-blue-light,skin-yellow,skin-yellow-light,skin-green,skin-green-light,skin-purple,skin-purple-light,skin-red,skin-red-light,skin-black,skin-black-light',
+            'img' => 'required|image|mimes:jpeg',
         ]);
     }
 
@@ -64,11 +65,21 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+      
+        $extension = pathinfo($data['img'],PATHINFO_EXTENSION);
+        $email = $data['email'];
+        $newname = "$email.jpg";
+        $pubpath = public_path();
+        move_uploaded_file($data['img'], "$pubpath/img/userimg/$newname");
+        $img = Image::make("$pubpath/img/userimg/$newname");
+        $img->resize(160, 160);
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'skin' => $data['skin'],
+            'img' => $newname
         ]);
     }
 }
