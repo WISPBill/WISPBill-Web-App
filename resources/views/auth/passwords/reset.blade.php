@@ -7,9 +7,19 @@
 @section('content')
 
     <body class="login-page">
-    <div class="login-box">
+    <div align="center">
+			<img src=" {{URL::to('img/2.jpg')}}" 
+	style="width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -5000;">
+   
+    </div>
+    <div class="login-box" style="float: right; margin-right: 10%;">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+             <a href="{{ url('https://github.com/WISPBill') }}"><b>WISP</b>Bill</a>
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -78,6 +88,10 @@
             });
         });
     </script>
+            <div style="position: fixed; bottom: 0; width: 98%;">
+	<p style="font-size: 8pt; float: right; color: black;">"Cell Tower" by <a href="http://www.flickr.com/photos/ervins_strauhmanis/" style="color: black;">Ervins Strauhmanis</a> available under a 
+    	<a href="http://creativecommons.org/licenses/by/2.0/deed.en" style="color: black;"> Creative Commons Attribution 2.0 Generic </a></p>
+	</div>	
     </body>
 
 @endsection
