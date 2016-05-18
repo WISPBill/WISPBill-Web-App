@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-
+Route::get('/newlead', 'leadcontroller@create');
+Route::post('/newlead', 'leadcontroller@store');
