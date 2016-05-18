@@ -12,7 +12,14 @@
 */
 
 Route::get('/', function () {
+    if (Auth::check())
+    {
+    return view('home');
+    }
+    else
+    {
     return view('auth/login');
+    }
 });
 
 Route::get('/newlead', 'leadcontroller@create');
