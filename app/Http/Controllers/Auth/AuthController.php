@@ -55,6 +55,7 @@ class AuthController extends Controller
             'skin' => 'required|in:skin-blue,skin-blue-light,skin-yellow,skin-yellow-light,skin-green,skin-green-light,skin-purple,skin-purple-light,skin-red,skin-red-light,skin-black,skin-black-light',
             'img' => 'required|image|mimes:jpeg',
             'role' => 'required|in:admin,nonadmin',
+            'phone' => 'required|regex:/\d{3}\-\d{3}\-\d{4}/',
         ]);
     }
 
@@ -83,6 +84,7 @@ class AuthController extends Controller
             'skin' => $data['skin'],
             'img' => $newname,
             'role' => $data['role'],
+            'phone' => $data['phone'],
         ]);
     }
 }

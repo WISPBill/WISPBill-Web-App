@@ -45,6 +45,10 @@
                     <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}"/>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
+						  <div class="form-group has-feedback">
+                    <input type='tel' class="form-control" placeholder="Phone Number 000-000-0000" name="phone" value="{{ old('phone') }}"/>
+                    <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                </div>
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control" placeholder="Password" name="password"/>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
