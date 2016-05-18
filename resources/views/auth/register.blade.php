@@ -70,6 +70,13 @@
                     <option value="skin-black-light">White</option>
                   </select>
                 </div>
+						 <div class="form-group has-feedback">
+                  <select class="form-control" name="role" required>
+					<option value='' selected disabled>Please Select a Role for the new User</option>
+                    <option value="admin">Admin</option>
+                    <option value="nonadmin">Non Admin</option>
+                  </select>
+                </div>
                     <div class="form-group has-feedback">
                     <label class="control-label">JPEG Profile Picture</label>
                     <input type="file" name="img" id="file">
