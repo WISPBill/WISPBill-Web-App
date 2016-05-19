@@ -27,3 +27,5 @@ Route::post('/newlead', 'leadcontroller@store');
 
 Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
+
+Route::get('/settings', 'settingscontroller@main');
