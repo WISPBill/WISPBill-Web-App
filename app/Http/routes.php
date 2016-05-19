@@ -24,3 +24,6 @@ Route::get('/', function () {
 
 Route::get('/newlead', 'leadcontroller@create');
 Route::post('/newlead', 'leadcontroller@store');
+
+Route::get('/viewlead', 'leadcontroller@index');
+

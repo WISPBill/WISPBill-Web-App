@@ -49,4 +49,12 @@ class leadcontroller extends Controller
            
         return redirect("/");
     }
+    
+    public function index()
+    {
+        $total = Customer_info::count();
+        $leads = Customer_info::all();
+        
+        return view('lead.view', compact('leads','total'));
+    }
 }
