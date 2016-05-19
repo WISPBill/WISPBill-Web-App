@@ -35,7 +35,7 @@ class leadcontroller extends Controller
         'source' => 'required|in:tel,friend,d2d,email,booth,other',
         ]);
          
-        Customer_info::create([
+        $lead = Customer_info::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'type' => $request['type'],
@@ -46,8 +46,8 @@ class leadcontroller extends Controller
             'source' => $request['source'],
             'tel' => $request['tel'],
         ]);
-           
-        return redirect("/");
+        $id = $lead['id'];
+        return redirect("/viewalead/$id");
     }
     
     public function index()
@@ -56,5 +56,13 @@ class leadcontroller extends Controller
         $leads = Customer_info::all();
         
         return view('lead.view', compact('leads','total'));
+    }
+    
+     public function show($id)
+    {
+        $total = Customer_info::count();
+        $leads['1'] = Customer_info::findOrFail($id);
+        
+      return view('lead.view', compact('leads','total'));
     }
 }
