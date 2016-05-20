@@ -154,11 +154,15 @@
                         </ul>
                     </li>
                 @endif
-
+                
+                @if((Gate::denies('admin')))
                 <!-- Control Sidebar Toggle Button -->
+            @else
                 <li>
                     <a href="/settings" ><i class="fa fa-gears"></i></a>
                 </li>
+                    
+                @endif
             </ul>
         </div>
     </nav>
