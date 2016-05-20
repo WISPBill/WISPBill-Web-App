@@ -29,3 +29,4 @@ Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
 
 Route::get('/settings', 'settingscontroller@main');
+Route::post('/setstripekey', 'settingscontroller@setstripekey');
