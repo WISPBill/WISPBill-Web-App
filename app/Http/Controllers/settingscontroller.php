@@ -51,4 +51,29 @@ class settingscontroller extends Controller
         ]);
         return redirect("/");
     }
+    
+    public function setgeocoder(Request $request)
+    {
+         $this->validate($request, [
+        'service' => 'required|in:mapzen',
+        'api' => 'required_if:service,mapzen',
+        ]);
+        
+        // Clear out DB of old keys
+        Settings::where('setting_name', 'geocoder service')->delete();
+        Settings::where('setting_name', 'geocoder API key')->delete();
+        
+        $API = trim($request['api']);
+        
+        Settings::create([
+            'setting_name' => 'geocoder service',
+            'setting_value' => $request['service'],
+        ]);
+        
+        Settings::create([
+            'setting_name' => 'geocoder API key',
+            'setting_value' => $API,
+        ]);
+        return redirect("/");
+    }
 }

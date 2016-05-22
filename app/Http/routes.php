@@ -30,3 +30,4 @@ Route::get('/viewalead/{id}', 'leadcontroller@show');
 
 Route::get('/settings', 'settingscontroller@main');
 Route::post('/setstripekey', 'settingscontroller@setstripekey');
+Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
