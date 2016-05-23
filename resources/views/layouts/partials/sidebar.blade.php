@@ -28,6 +28,7 @@
                 <a href="#"><i class='fa fa-user'></i> <span>Lead Management</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="/newlead">Create a Lead</a></li>
+                    <li><a href="/addleadlocation">Add a Location to a Lead</a></li>
                     <li><a href="/viewlead">View Lead's</a></li>
                 </ul>
             </li>

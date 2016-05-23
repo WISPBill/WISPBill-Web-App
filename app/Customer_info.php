@@ -15,5 +15,9 @@ class Customer_info extends Model
     protected $fillable = [
         'name', 'email', 'type','add','city','zip','state','source','tel'
     ];
-
+     
+     public function locations()
+    {
+        return $this->hasMany('App\Customer_locations');
+    }
 }

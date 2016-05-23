@@ -25,6 +25,9 @@ Route::get('/', function () {
 Route::get('/newlead', 'leadcontroller@create');
 Route::post('/newlead', 'leadcontroller@store');
 
+Route::get('/addleadlocation', 'leadcontroller@addlocation');
+Route::post('/addleadlocation', 'leadcontroller@storeaddlocation');
+
 Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
 
