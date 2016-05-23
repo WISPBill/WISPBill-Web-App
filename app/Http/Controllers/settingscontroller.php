@@ -76,4 +76,5 @@ class settingscontroller extends Controller
         ]);
         return redirect("/");
     }
+
 }
