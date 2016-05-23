@@ -15,13 +15,14 @@ class settingscontroller extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        if (Gate::denies('admin')) {
+            abort(403,'Unauthorized action.');
+        }
     }
     
     public function main()
     {
-        if (Gate::denies('admin')) {
-            abort(403,'Unauthorized action.');
-        }
+        
 
         return view('admin.main');
     }
