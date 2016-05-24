@@ -22,6 +22,8 @@ Route::get('/', function () {
     }
 });
 
+Route::get('/maplead', 'leadcontroller@map');
+
 Route::get('/newlead', 'leadcontroller@create');
 Route::post('/newlead', 'leadcontroller@store');
 
@@ -34,3 +36,4 @@ Route::get('/viewalead/{id}', 'leadcontroller@show');
 Route::get('/settings', 'settingscontroller@main');
 Route::post('/setstripekey', 'settingscontroller@setstripekey');
 Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
+Route::post('/setmapview', 'settingscontroller@setmapview');

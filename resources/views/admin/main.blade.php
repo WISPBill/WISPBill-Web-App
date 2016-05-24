@@ -1,5 +1,13 @@
 @extends('layouts.app')
-
+@section('page-header')
+	 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
+	 <style>
+    #map{ min-width: inherit; min-height: 500px; }
+  </style>
+@endsection
 @section('htmlheader_title')
 	Settings
 @endsection
@@ -93,6 +101,55 @@
 
 				<div class="box-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+     
+              </form>
+			</div>
+		  </div>
+			   <div class="box box-danger">
+            <div class="box-header with-border">
+			<h4>Set Map View</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+              <form role="form" action="/setmapview"method="post">
+                <!-- text input -->
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+				<input type="hidden" name="lat" id="lat" value="">
+				<input type="hidden" name="lon" id="lon" value="">
+				<input type="hidden" name="zoom" id="zoom" value="">
+				  <div id="map"></div>
+            @yield('main-content')
+            
+             <script>
+  // initialize the map
+
+  var map = L.map('map').setView([37.804146, -122.275045], 16);
+
+  // load a tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      
+    }).addTo(map);
+
+    var geocoder = L.control.geocoder('{{$key}}').addTo(map);
+     
+     function getExtent(e) {
+              var lat = map.getCenter().lat;
+              var lng = map.getCenter().lng;
+              var zoom =  map.getZoom();
+		  
+		  document.getElementById('lat').value = lat;
+          document.getElementById('lon').value = lng;
+		  document.getElementById('zoom').value = zoom;
+        }
+        map.on('mouseout', getExtent);
+  </script>
+               
+				<div class="box-footer">
+                <button type="submit" class="btn btn-primary">Save View</button>
               </div>
      
               </form>

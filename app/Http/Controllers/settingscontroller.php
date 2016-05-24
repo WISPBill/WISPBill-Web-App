@@ -22,9 +22,10 @@ class settingscontroller extends Controller
     
     public function main()
     {
-        
+        $api = Settings::where('setting_name', 'geocoder API key')->first();
+        $key = $api['setting_value'];
 
-        return view('admin.main');
+        return view('admin.main',compact('key'));
     }
     
      public function setstripekey(Request $request)
@@ -74,6 +75,36 @@ class settingscontroller extends Controller
         Settings::create([
             'setting_name' => 'geocoder API key',
             'setting_value' => $API,
+        ]);
+        return redirect("/");
+    }
+    
+    public function setmapview(Request $request)
+    {
+         $this->validate($request, [
+        'lat' => 'required|numeric',
+        'lon' => 'required|numeric',
+        'zoom' => 'required|numeric',
+        ]);
+        
+        // Clear out DB of old keys
+        Settings::where('setting_name', 'map lat')->delete();
+        Settings::where('setting_name', 'map lon')->delete();
+        Settings::where('setting_name', 'map zoom')->delete();
+          
+        Settings::create([
+            'setting_name' => 'map lat',
+            'setting_value' => $request['lat'],
+        ]);
+        
+        Settings::create([
+            'setting_name' => 'map lon',
+            'setting_value' => $request['lon'],
+        ]);
+        
+         Settings::create([
+            'setting_name' => 'map zoom',
+            'setting_value' => $request['zoom'],
         ]);
         return redirect("/");
     }

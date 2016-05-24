@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Customer_info;
 
+use App\Settings;
+
 use App\Customer_locations;
 
 use App\Helpers\Helper;
@@ -23,6 +25,28 @@ class leadcontroller extends Controller
     public function create()
     {
         return view('lead.new');
+    }
+    
+    public function map()
+    {
+        $api = Settings::where('setting_name', 'geocoder API key')->first();
+        $lat = Settings::where('setting_name', 'map lat')->first();
+        $lon = Settings::where('setting_name', 'map lon')->first();
+        $zoom = Settings::where('setting_name', 'map zoom')->first();
+        
+        $lat = $lat['setting_value'];
+        $lon = $lon['setting_value'];
+        $zoom = $zoom['setting_value'];
+        
+        $mapsettings = array(
+        "lat" => "$lat",
+        "lon" => "$lon",
+        "zoom" => "$zoom",
+        );
+        
+        $key = $api['setting_value'];
+        $geoleads = Customer_locations::with('customer')->get();
+        return view('lead.map', compact('key','geoleads','mapsettings'));
     }
     
     public function addlocation()

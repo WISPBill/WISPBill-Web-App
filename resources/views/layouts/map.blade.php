@@ -6,7 +6,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 
 @section('htmlheader')
-    
+      @section('page-header')
+	  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
+  <style>
+    #map{ min-width: inherit; min-height: 550px; }
+  </style>
+@endsection
     @include('layouts.partials.htmlheader')
 @show
 
@@ -44,8 +52,27 @@ desired effect
 
         <!-- Main content -->
         <section class="content">
-            <!-- Your Page Content Here -->
+             <div id="map"></div>
             @yield('main-content')
+            
+             <script>
+  // initialize the map
+
+  var map = L.map('map').setView([{{$mapsettings['lat']}}, {{$mapsettings['lon']}}], {{$mapsettings['zoom']}});
+
+  // load a tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      
+    }).addTo(map);
+
+    var geocoder = L.control.geocoder('{{$key}}').addTo(map);
+     
+     
+  </script>
+    
+    @yield('map-data')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 
