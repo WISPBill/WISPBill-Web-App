@@ -18,6 +18,6 @@ class Customer_info extends Model
 
      public function locations()
     {
-        return $this->hasMany('App\Customer_locations','id');
+        return $this->hasMany('App\Models\Customer_locations','id');
     }
 }

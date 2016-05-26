@@ -18,6 +18,6 @@ class Customer_locations extends Model
 
        public function customer()
     {
-        return $this->belongsTo('App\Customer_info','id');
+        return $this->belongsTo('App\Models\Customer_info','id');
     }
 }
