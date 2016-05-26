@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +15,7 @@ class Customer_info extends Model
     protected $fillable = [
         'name', 'email', 'type','add','city','zip','state','source','tel'
     ];
-     
+
      public function locations()
     {
         return $this->hasMany('App\Customer_locations','id');

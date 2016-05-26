@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +15,7 @@ class Customer_locations extends Model
     protected $fillable = [
         'longitude', 'latitude', 'status','add','city','zip','state','customer_info_id'
     ];
-    
+
        public function customer()
     {
         return $this->belongsTo('App\Customer_info','id');
