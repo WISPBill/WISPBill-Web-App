@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Settings;
+use App\Settings;
 
 use Gate;
 
@@ -19,7 +19,7 @@ class settingscontroller extends Controller
             abort(403,'Unauthorized action.');
         }
     }
-
+    
     public function main()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
@@ -27,58 +27,58 @@ class settingscontroller extends Controller
 
         return view('admin.main',compact('key'));
     }
-
+    
      public function setstripekey(Request $request)
     {
          $this->validate($request, [
         'publishable' => 'required',
         'secret' => 'required',
         ]);
-
+        
         // Clear out DB of old keys
         Settings::where('setting_name', 'stripe secret key')->delete();
         Settings::where('setting_name', 'stripe publishable key')->delete();
-
+        
         $publishable = trim($request['publishable']);
         $secret = trim($request['secret']);
-
+        
         Settings::create([
             'setting_name' => 'stripe publishable key',
             'setting_value' => $publishable,
         ]);
-
+        
         Settings::create([
             'setting_name' => 'stripe secret key',
             'setting_value' => $secret,
         ]);
         return redirect("/");
     }
-
+    
     public function setgeocoder(Request $request)
     {
          $this->validate($request, [
         'service' => 'required|in:mapzen',
         'api' => 'required_if:service,mapzen',
         ]);
-
+        
         // Clear out DB of old keys
         Settings::where('setting_name', 'geocoder service')->delete();
         Settings::where('setting_name', 'geocoder API key')->delete();
-
+        
         $API = trim($request['api']);
-
+        
         Settings::create([
             'setting_name' => 'geocoder service',
             'setting_value' => $request['service'],
         ]);
-
+        
         Settings::create([
             'setting_name' => 'geocoder API key',
             'setting_value' => $API,
         ]);
         return redirect("/");
     }
-
+    
     public function setmapview(Request $request)
     {
          $this->validate($request, [
@@ -86,22 +86,22 @@ class settingscontroller extends Controller
         'lon' => 'required|numeric',
         'zoom' => 'required|numeric',
         ]);
-
+        
         // Clear out DB of old keys
         Settings::where('setting_name', 'map lat')->delete();
         Settings::where('setting_name', 'map lon')->delete();
         Settings::where('setting_name', 'map zoom')->delete();
-
+          
         Settings::create([
             'setting_name' => 'map lat',
             'setting_value' => $request['lat'],
         ]);
-
+        
         Settings::create([
             'setting_name' => 'map lon',
             'setting_value' => $request['lon'],
         ]);
-
+        
          Settings::create([
             'setting_name' => 'map zoom',
             'setting_value' => $request['zoom'],

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer_info;
+use App\Customer_info;
 
-use App\Models\Settings;
+use App\Settings;
 
-use App\Models\Customer_locations;
+use App\Customer_locations;
 
 use App\Helpers\Helper;
 
@@ -16,47 +16,47 @@ use App\Http\Requests;
 
 class leadcontroller extends Controller
 {
-
+    
     public function __construct()
     {
         $this->middleware('auth');
     }
-
+    
     public function create()
     {
         return view('lead.new');
     }
-
+    
     public function map()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
         $lat = Settings::where('setting_name', 'map lat')->first();
         $lon = Settings::where('setting_name', 'map lon')->first();
         $zoom = Settings::where('setting_name', 'map zoom')->first();
-
+        
         $lat = $lat['setting_value'];
         $lon = $lon['setting_value'];
         $zoom = $zoom['setting_value'];
-
+        
         $mapsettings = array(
         "lat" => "$lat",
         "lon" => "$lon",
         "zoom" => "$zoom",
         );
-
+        
         $key = $api['setting_value'];
         $geoleads = Customer_locations::with('customer')->get();
         return view('lead.map', compact('key','geoleads','mapsettings'));
     }
-
+    
     public function addlocation()
     {
         $total = Customer_info::count();
         $leads = Customer_info::all();
-
+        
         return view('lead.addlocation', compact('leads','total'));
     }
-
+    
     public function storeaddlocation(Request $request)
     {
          $this->validate($request, [
@@ -67,7 +67,7 @@ class leadcontroller extends Controller
         'zip' => 'required_if:location,different|numeric',
         'state' => 'required_if:location,different',
         ]);
-
+         
          if($request['location'] == 'same'){
              $customer = Customer_info::find($request['id']);
              $add = $customer['add'];
@@ -78,15 +78,15 @@ class leadcontroller extends Controller
             $add = $request['add'];
             $city = $request['city'];
             $state = $request['state'];
-            $zip = $request['zip'];
+            $zip = $request['zip']; 
          }
          $place = "$add $city $state $zip";
-
+         
         $cords = Helper::geocode("$place");
-
+        
         $lat = $cords['lat'];
         $lon = $cords['lon'];
-
+        
         Customer_locations::create([
             'longitude' => $lon,
             'latitude' => $lat,
@@ -97,10 +97,10 @@ class leadcontroller extends Controller
             'customer_info_id' => $request['id'],
             'status' => NULL,
         ]);
-
+        
         return redirect("/");
     }
-
+    
     public function store(Request $request)
     {
          $this->validate($request, [
@@ -114,7 +114,7 @@ class leadcontroller extends Controller
         'state' => 'required',
         'source' => 'required|in:tel,friend,d2d,email,booth,other',
         ]);
-
+         
         $lead = Customer_info::create([
             'name' => $request['name'],
             'email' => $request['email'],
@@ -129,20 +129,20 @@ class leadcontroller extends Controller
         $id = $lead['id'];
         return redirect("/viewalead/$id");
     }
-
+    
     public function index()
     {
         $total = Customer_info::count();
         $leads = Customer_info::all();
-
+        
         return view('lead.view', compact('leads','total'));
     }
-
+    
      public function show($id)
     {
         $total = Customer_info::count();
         $leads['1'] = Customer_info::findOrFail($id);
-
+        
       return view('lead.view', compact('leads','total'));
     }
 }
