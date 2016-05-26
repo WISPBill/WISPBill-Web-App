@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Settings;
+use App\Models\Settings;
 
-use App\Locations;
+use App\Models\Locations;
 
 use Illuminate\Http\Request;
 
@@ -16,28 +16,28 @@ class sitecontroller extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function create()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
         $lat = Settings::where('setting_name', 'map lat')->first();
         $lon = Settings::where('setting_name', 'map lon')->first();
         $zoom = Settings::where('setting_name', 'map zoom')->first();
-        
+
         $lat = $lat['setting_value'];
         $lon = $lon['setting_value'];
         $zoom = $zoom['setting_value'];
-        
+
         $mapsettings = array(
         "lat" => "$lat",
         "lon" => "$lon",
         "zoom" => "$zoom",
         );
-        
+
         $key = $api['setting_value'];
         return view('site.new', compact('key','mapsettings'));
     }
-    
+
         public function store(Request $request)
     {
          $this->validate($request, [
@@ -47,7 +47,7 @@ class sitecontroller extends Controller
         'lon' => 'required',
         'lat' => 'required',
         ]);
-         
+
          if($request['type'] == 'other'){
             $type = $request['other'];
          }else{
@@ -59,7 +59,7 @@ class sitecontroller extends Controller
             'longitude' => $request['lon'],
             'latitude' => $request['lat'],
         ]);
-        
+
         return redirect("/");
     }
 }
