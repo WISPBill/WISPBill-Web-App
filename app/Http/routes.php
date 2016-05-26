@@ -21,19 +21,19 @@ Route::get('/', function () {
     return view('auth/login');
     }
 });
-
+//Lead Routes
 Route::get('/maplead', 'leadcontroller@map');
-
 Route::get('/newlead', 'leadcontroller@create');
 Route::post('/newlead', 'leadcontroller@store');
-
 Route::get('/addleadlocation', 'leadcontroller@addlocation');
 Route::post('/addleadlocation', 'leadcontroller@storeaddlocation');
-
 Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
-
+//Settings Routes
 Route::get('/settings', 'settingscontroller@main');
 Route::post('/setstripekey', 'settingscontroller@setstripekey');
 Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
 Route::post('/setmapview', 'settingscontroller@setmapview');
+//Site Routes
+Route::get('/newsite', 'sitecontroller@create');
+Route::post('/newsite', 'sitecontroller@store');
