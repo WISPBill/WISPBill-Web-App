@@ -37,6 +37,29 @@ class sitecontroller extends Controller
         $key = $api['setting_value'];
         return view('site.new', compact('key','mapsettings'));
     }
+    
+    public function coverage()
+    {
+        $api = Settings::where('setting_name', 'geocoder API key')->first();
+        $lat = Settings::where('setting_name', 'map lat')->first();
+        $lon = Settings::where('setting_name', 'map lon')->first();
+        $zoom = Settings::where('setting_name', 'map zoom')->first();
+
+        $lat = $lat['setting_value'];
+        $lon = $lon['setting_value'];
+        $zoom = $zoom['setting_value'];
+
+        $mapsettings = array(
+        "lat" => "$lat",
+        "lon" => "$lon",
+        "zoom" => "$zoom",
+        );
+
+        $key = $api['setting_value'];
+        
+        $sites = Locations::all();
+        return view('site.coverage', compact('key','mapsettings','sites'));
+    }
 
         public function store(Request $request)
     {
@@ -58,7 +81,21 @@ class sitecontroller extends Controller
             'type' => $type,
             'longitude' => $request['lon'],
             'latitude' => $request['lat'],
+            'coverage' => NULL,
         ]);
+
+        return redirect("/");
+    }
+    
+        public function storecoverage(Request $request)
+    {
+         $this->validate($request, [
+        'data' => 'required',
+        'site' => 'required',
+        ]);
+
+        
+        Locations::where('id', $request['site'])->update(['coverage' => $request['data']]);
 
         return redirect("/");
     }

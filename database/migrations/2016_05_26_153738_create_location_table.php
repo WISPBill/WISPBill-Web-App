@@ -18,6 +18,7 @@ class CreateLocationTable extends Migration
             $table->decimal('latitude', 10, 7);
             $table->string('type');
             $table->string('name');
+            $table->longText('coverage')->nullable()->default(NULL);
             $table->timestamps();
         });
     }
