@@ -122,4 +122,12 @@ class sitecontroller extends Controller
         $sites = Locations::all();
         return view('site.map', compact('key','mapsettings','sites'));
     }
+    
+    public function index()
+    {
+        $total = Locations::count();
+        $sites = Locations::all();
+
+        return view('site.view', compact('sites','total'));
+    }
 }
