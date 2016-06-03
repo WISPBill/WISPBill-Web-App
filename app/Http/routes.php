@@ -39,3 +39,4 @@ Route::get('/newsite', 'sitecontroller@create');
 Route::post('/newsite', 'sitecontroller@store');
 Route::get('/editcoverage', 'sitecontroller@coverage');
 Route::post('/editcoverage', 'sitecontroller@storecoverage');
+Route::get('/mapsites', 'sitecontroller@map');

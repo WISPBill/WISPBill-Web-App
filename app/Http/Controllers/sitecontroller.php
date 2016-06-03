@@ -99,4 +99,27 @@ class sitecontroller extends Controller
 
         return redirect("/");
     }
+    
+    public function map()
+    {
+        $api = Settings::where('setting_name', 'geocoder API key')->first();
+        $lat = Settings::where('setting_name', 'map lat')->first();
+        $lon = Settings::where('setting_name', 'map lon')->first();
+        $zoom = Settings::where('setting_name', 'map zoom')->first();
+
+        $lat = $lat['setting_value'];
+        $lon = $lon['setting_value'];
+        $zoom = $zoom['setting_value'];
+
+        $mapsettings = array(
+        "lat" => "$lat",
+        "lon" => "$lon",
+        "zoom" => "$zoom",
+        );
+
+        $key = $api['setting_value'];
+        
+        $sites = Locations::all();
+        return view('site.map', compact('key','mapsettings','sites'));
+    }
 }
