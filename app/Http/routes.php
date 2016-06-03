@@ -44,3 +44,5 @@ Route::get('/viewsites', 'sitecontroller@index');
 //Contact Routes
 Route::get('/newcontact', 'contactcontroller@create');
 Route::post('/newcontact', 'contactcontroller@store');
+Route::get('/addcontactsite', 'contactcontroller@add');
+Route::post('/addcontactsite', 'contactcontroller@storeadd');

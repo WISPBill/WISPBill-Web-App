@@ -15,4 +15,10 @@ class Contacts extends Model
     protected $fillable = [
         'name', 'email', 'organization','add','city','zip','state','tel'
     ];
+    
+    public function sites()
+    {
+        return $this->belongsToMany('App\Models\Locations', 'site_contacts', 'contact_id', 'location_id')->withTimestamps();
+
+    }
 }
