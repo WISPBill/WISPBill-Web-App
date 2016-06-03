@@ -36,6 +36,11 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-location-arrow'></i> <span>Site Management</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
+                    <li class="treeview">
+          <a href="#"><i class="fa fa-user"></i> <span>Contact Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="/newcontact">Create a Contact</a></li>
+          </ul></li>
                     <li><a href="/newsite">Create a Site</a></li>
                     <li><a href="/editcoverage">Edit Site Coverage</a></li>
                     <li><a href="/mapsites">Map Sites</a></li>

@@ -41,3 +41,6 @@ Route::get('/editcoverage', 'sitecontroller@coverage');
 Route::post('/editcoverage', 'sitecontroller@storecoverage');
 Route::get('/mapsites', 'sitecontroller@map');
 Route::get('/viewsites', 'sitecontroller@index');
+//Contact Routes
+Route::get('/newcontact', 'contactcontroller@create');
+Route::post('/newcontact', 'contactcontroller@store');
