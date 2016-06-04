@@ -69,4 +69,12 @@ class contactcontroller extends Controller
     
       return redirect("/");
     }
+    
+    public function index()
+    {
+        $total = Contacts::count();
+        $contacts = Contacts::all();
+        
+        return view('contact.view', compact('contacts','total'));
+    }
 }
