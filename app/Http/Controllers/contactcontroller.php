@@ -10,8 +10,6 @@ use App\Models\Contacts;
 
 use App\Models\Locations;
 
-use App\Models\Site_Contacts;
-
 class contactcontroller extends Controller
 {
     public function __construct()
@@ -66,12 +64,9 @@ class contactcontroller extends Controller
         'contactid' => 'required',
         ]);
 
-        Site_Contacts::create([
-            'location_id' => $request['siteid'],
-            'contact_id' => $request['contactid'],
-        ]);
-        
-        
-        return redirect("/");
+        $location = Locations::find($request['siteid']);
+        $location->contacts()->attach($request['contactid']);
+    
+      return redirect("/");
     }
 }

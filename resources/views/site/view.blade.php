@@ -5,7 +5,24 @@
 @section('htmlheader_title')
 	View Sites
 @endsection
-
+@section('modal')
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Contacts Associated With Site</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+      {{var_dump($sites)}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
 @section('contentheader_title')
 	View Sites
 @endsection
@@ -25,6 +42,7 @@
                     <th>Type</th>
 				  <th>Latitude</th> 
 				 <th>Longitude</th>
+				  	 <th>Contacts</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,6 +51,9 @@
                  <td style="text-transform: capitalize;">{{ $site->type}}</td>
                  <td>{{ $site->latitude}}</td>
                  <td>{{ $site->longitude}}</td>
+                 <td>
+		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#myModal' '>Show Contacts</button>
+		</td>
              @endforeach
               </tbody>
                 <tfoot>
@@ -41,6 +62,7 @@
                <th>Type</th>
 				  <th>Latitude</th> 
 				 <th>Longitude</th>
+				 	 <th>Contacts</th>
                 </tr>
                 </tfoot>
               </table>

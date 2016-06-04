@@ -13,7 +13,6 @@ class CreateSiteContacts extends Migration
     public function up()
     {
             Schema::create('site_contacts', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('location_id')->unsigned();
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->integer('contact_id')->unsigned();

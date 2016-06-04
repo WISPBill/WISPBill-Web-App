@@ -31,6 +31,7 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="{{$skin = Auth::user()->skin}} sidebar-mini">
+    @yield('modal')
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')

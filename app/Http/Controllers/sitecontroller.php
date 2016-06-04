@@ -57,7 +57,7 @@ class sitecontroller extends Controller
 
         $key = $api['setting_value'];
         
-        $sites = Locations::all();
+        $sites = Locations::with('contacts')->get();
         return view('site.coverage', compact('key','mapsettings','sites'));
     }
 
