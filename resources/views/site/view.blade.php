@@ -6,15 +6,58 @@
 	View Sites
 @endsection
 @section('modal')
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+@foreach($sites as $site)
+<div class="modal fade  " id="{{$site->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Contacts Associated With Site</h4>
+        <h4 class="modal-title" id="myModalLabel">Contacts Associated With {{$site->name}}</h4>
       </div>
       <div class="modal-body" id="modal-body">
-      {{var_dump($sites)}}
+      <table id="mtable{{$site->id}}" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+				   
+				  <th>Name</th> 
+				   <th>Organization</th>
+				  <th>Phone</th>
+                  <th>Email</th>
+				  <th>Address</th> 
+				 <th>City</th>
+                 <th>Zip</th>
+                </tr>
+               
+                </thead>
+                <tbody>
+                @foreach($site->contacts as $contact)
+            
+				       <td>{{ $contact->name}}</td>
+				         <td>{{ $contact->organization}}</td>
+                 <td>{{ $contact->tel}}</td>
+                 <td>{{ $contact->email}}</td>
+                 <td>{{ $contact->add}}</td>
+                 <td>{{ $contact->city}}</td>
+                 <td>{{ $contact->zip}}</td></tr>
+
+                @endforeach
+      
+              </tbody>
+                <tfoot>
+                
+                 <tr>
+				   
+				  <th>Name</th> 
+				   <th>Organization</th>
+				  <th>Phone</th>
+                  <th>Email</th>
+				  <th>Address</th> 
+				 <th>City</th>
+                 <th>Zip</th>
+                </tr>
+                
+                </tfoot>
+              </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -22,6 +65,7 @@
     </div>
   </div>
 </div>
+@endforeach
 @endsection
 @section('contentheader_title')
 	View Sites
@@ -52,7 +96,7 @@
                  <td>{{ $site->latitude}}</td>
                  <td>{{ $site->longitude}}</td>
                  <td>
-		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#myModal' '>Show Contacts</button>
+		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#{{$site->id}}' '>Show Contacts</button>
 		</td>
              @endforeach
               </tbody>
@@ -87,5 +131,17 @@
       "autoWidth": true
     });
   });
+  @foreach($sites as $site)
+    $(function () {
+    $('#mtable{{$site->id}}').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true
+    });
+  });
+  @endforeach
 </script>
 @endsection 
