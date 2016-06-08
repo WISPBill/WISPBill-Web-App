@@ -47,3 +47,5 @@ Route::post('/newcontact', 'contactcontroller@store');
 Route::get('/addcontactsite', 'contactcontroller@add');
 Route::post('/addcontactsite', 'contactcontroller@storeadd');
 Route::get('/viewcontacts', 'contactcontroller@index');
+Route::get('/contact/newnote', 'contactcontroller@notecreate');
+Route::post('/contact/newnote', 'contactcontroller@notestore');

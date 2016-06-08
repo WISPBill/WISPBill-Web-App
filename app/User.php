@@ -23,4 +23,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function contactnotes()
+    {
+        return $this->hasMany('App\Models\Contact_Notes','id');
+    }
 }

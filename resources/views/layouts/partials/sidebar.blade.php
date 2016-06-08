@@ -42,6 +42,7 @@
             <li><a href="/newcontact">Create a Contact</a></li>
             <li><a href="/addcontactsite">Add Contact to Site</a></li>
             <li><a href="/viewcontacts">View Contacts</a></li>
+            <li><a href="/contact/newnote">Create a Note about a Contact</a></li>
           </ul></li>
                     <li><a href="/newsite">Create a Site</a></li>
                     <li><a href="/editcoverage">Edit Site Coverage</a></li>
