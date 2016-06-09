@@ -24,6 +24,6 @@ class Contacts extends Model
     
     public function notes()
     {
-        return $this->hasMany('App\Models\Contact_Notes','id');
+        return $this->hasMany('App\Models\Contact_Notes','contact_id');
     }
 }

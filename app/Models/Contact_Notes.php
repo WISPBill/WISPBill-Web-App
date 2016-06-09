@@ -19,11 +19,11 @@ class Contact_Notes extends Model
     
     public function contact()
     {
-        return $this->belongsTo('App\Models\Contacts','id');
+        return $this->belongsTo('App\Models\Contacts','contact_id','id');
     }
     
     public function creator()
     {
-        return $this->belongsTo('App\Users','id');
+        return $this->belongsTo('App\User','user_id','id');
     }
 }

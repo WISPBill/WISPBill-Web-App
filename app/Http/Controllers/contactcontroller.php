@@ -77,7 +77,7 @@ class contactcontroller extends Controller
     public function index()
     {
         $total = Contacts::count();
-        $contacts = Contacts::all();
+        $contacts = Contacts::with('notes.creator')->get();
         
         return view('contact.view', compact('contacts','total'));
     }

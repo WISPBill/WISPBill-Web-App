@@ -5,7 +5,57 @@
 @section('htmlheader_title')
 	View Contacts
 @endsection
+@section('modal')
+@foreach($contacts as $contact)
+<div class="modal fade  " id="{{$contact->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Notes Associated With {{$contact->name}}</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+      <table id="mtable{{$contact->id}}" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+				   
+				  <th>Note</th> 
+				   <th>Created By</th>
+				  <th>Creation Date</th>
+                </tr>
+               
+                </thead>
+                <tbody>
+                   @foreach($contact->notes as $note)
+                <tr>
+				       <td>{{ $note->note}}</td>
+                 <td>{{$note->creator->name}}</td>
+                 <td>{{ date_format($note->created_at, 'n/j/y g:i A')}}</td></tr>
 
+                @endforeach
+               
+      
+              </tbody>
+                <tfoot>
+                
+                 <tr>
+				   <th>Note</th> 
+				   <th>Created By</th>
+				  <th>Creation Date</th>
+                </tr>
+                </tr>
+                
+                </tfoot>
+              </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
+@endsection
 @section('contentheader_title')
 	View Contacts
 @endsection
@@ -31,6 +81,7 @@
 				  <th>Address</th> 
 				 <th>City</th>
                  <th>Zip</th>
+                 <th>View Notes</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +93,10 @@
                  <td>{{ $contact->email}}</td>
                  <td>{{ $contact->add}}</td>
                  <td>{{ $contact->city}}</td>
-                 <td>{{ $contact->zip}}</td></tr>
+                 <td>{{ $contact->zip}}</td>
+                 <td>
+		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#{{$contact->id}}'>View Notes</button>
+		</td></tr>
              @endforeach
               </tbody>
                 <tfoot>
@@ -55,6 +109,7 @@
 				  <th>Address</th> 
 				 <th>City</th>
                  <th>Zip</th>
+                 <th>View Notes</th>
                 </tr>
                 </tfoot>
               </table>
@@ -79,6 +134,17 @@
       "autoWidth": true
     });
   });
-
+  @foreach($contacts as $contact)
+    $(function () {
+    $('#mtable{{$contact->id}}').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true
+    });
+  });
+  @endforeach
 </script>
 @endsection 
