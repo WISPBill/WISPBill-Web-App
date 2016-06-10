@@ -21,4 +21,9 @@ class Locations extends Model
         return $this->belongsToMany('App\Models\Contacts', 'site_contacts', 'location_id', 'contact_id')->withTimestamps();
 
     }
+    
+    public function notes()
+    {
+        return $this->hasMany('App\Models\Site_Notes','location_id');
+    }
 }

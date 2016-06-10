@@ -28,4 +28,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Contact_Notes','id');
     }
+    
+    public function sitenotes()
+    {
+        return $this->hasMany('App\Models\Site_Notes','id');
+    }
 }
