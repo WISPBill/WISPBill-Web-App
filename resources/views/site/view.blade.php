@@ -65,6 +65,53 @@
     </div>
   </div>
 </div>
+<div class="modal fade  " id="note{{$site->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Notes Associated With {{$site->name}}</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+      <table id="mnotetable{{$site->id}}" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+				   
+				  <th>Note</th> 
+				   <th>Created By</th>
+				  <th>Creation Date</th>
+                </tr>
+               
+                </thead>
+                <tbody>
+                   @foreach($site->notes as $note)
+                <tr>
+				       <td>{{ $note->note}}</td>
+                 <td>{{$note->creator->name}}</td>
+                 <td>{{ date_format($note->created_at, 'n/j/y g:i A')}}</td></tr>
+
+                @endforeach
+               
+      
+              </tbody>
+                <tfoot>
+                
+                 <tr>
+				   <th>Note</th> 
+				   <th>Created By</th>
+				  <th>Creation Date</th>
+                </tr>
+                </tr>
+                
+                </tfoot>
+              </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endforeach
 @endsection
 @section('contentheader_title')
@@ -87,6 +134,7 @@
 				  <th>Latitude</th> 
 				 <th>Longitude</th>
 				  	 <th>Contacts</th>
+				  	 <th>Notes</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -96,8 +144,12 @@
                  <td>{{ $site->latitude}}</td>
                  <td>{{ $site->longitude}}</td>
                  <td>
-		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#{{$site->id}}' '>Show Contacts</button>
+		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#{{$site->id}}'>Show Contacts</button>
 		</td>
+		    <td>
+		   <button type='button' class='btn btn-block btn-success btn-sm' data-toggle='modal' data-target='#note{{$site->id}}'>Show Notes</button>
+		</td>
+		</tr>
              @endforeach
               </tbody>
                 <tfoot>
@@ -107,6 +159,7 @@
 				  <th>Latitude</th> 
 				 <th>Longitude</th>
 				 	 <th>Contacts</th>
+				 	  <th>Notes</th>
                 </tr>
                 </tfoot>
               </table>
@@ -134,6 +187,16 @@
   @foreach($sites as $site)
     $(function () {
     $('#mtable{{$site->id}}').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true
+    });
+  });
+  $(function () {
+    $('#mnotetable{{$site->id}}').DataTable({
       "paging": true,
       "lengthChange": true,
       "searching": true,

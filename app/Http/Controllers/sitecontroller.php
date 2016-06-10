@@ -132,7 +132,7 @@ class sitecontroller extends Controller
     {
         $total = Locations::count();
        
-        $sites = Locations::with('contacts')->get();
+        $sites = Locations::with('contacts','notes.creator')->get();
         
         return view('site.view', compact('sites','total'));
     }
