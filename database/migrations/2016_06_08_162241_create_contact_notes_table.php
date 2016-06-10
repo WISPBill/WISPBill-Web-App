@@ -30,6 +30,6 @@ class CreateContactNotesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('locations');
+        Schema::drop('contact_notes');
     }
 }
