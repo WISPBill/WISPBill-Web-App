@@ -126,7 +126,7 @@
              <script>
   // initialize the map
 
-  var map = L.map('map').setView([37.804146, -122.275045], 16);
+  var map = L.map('map').setView([38.0000, -97.0000], 4);
 
   // load a tile layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
