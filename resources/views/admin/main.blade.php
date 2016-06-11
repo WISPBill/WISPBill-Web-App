@@ -89,7 +89,8 @@
 					<label>Geocoding Service</label>
                     <select class="form-control" name="service" required>
 					<option value='' selected disabled>Please Select a Service</option>
-                    <option value="mapzen">Mapzen Search</option>
+                    <option value="mapzen">Mapzen Search (Based on OpenAddress)</option>
+                    <option value="census">US Census Geocoder (Residential Only)</option>
 					</select>
                 </div>
                

@@ -1,7 +1,7 @@
 <?php 
 namespace App\Helpers;
 
-use App\Settings;
+use App\Models\Settings;
 
 class Helper
 {
@@ -41,11 +41,50 @@ class Helper
                 return($coordinates);
                 
             }else{
-                abort(501, 'Failed to find Mapzen API in DB');
+                abort(500, 'Failed to find Mapzen API in DB');
             }
+        }elseif($service['setting_value'] === 'census'){
+	
+	        $place = urlencode($place);
+	        
+	        $url = "http://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=$place&benchmark=9&format=json";
+	        /* Run query using cURL */
+	
+	        $ch = curl_init();
+	        curl_setopt($ch, CURLOPT_URL, $url);
+	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	        $result = curl_exec($ch);
+	        curl_close($ch);
+
+            $geo = json_decode($result, true);
+             $data= $geo["result"];
+                $data2= $data["addressMatches"];
+                if(empty($data2)){
+                   
+                    $coordinates = array(
+                     "lat" => "38.0000",
+                     "lon" => "-97.0000",
+                    );
+                
+                return($coordinates);
+                   
+                }else{
+                    // We have a Match
+                    $data3= $data2["0"];
+                    $data4= $data3["coordinates"];
+                    $lon= $data4["x"];
+                    $lat= $data4["y"];
+                    
+                    $coordinates = array(
+                     "lat" => "$lat",
+                     "lon" => "$lon",
+                    );
+                
+                return($coordinates);
+                }
         }else{
             
-            abort(501, 'Failed to find Geocoding Service in DB');
+            abort(500, 'Failed to find Geocoding Service in DB');
         }
     }
 }

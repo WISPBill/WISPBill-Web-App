@@ -57,16 +57,24 @@ class settingscontroller extends Controller
     public function setgeocoder(Request $request)
     {
          $this->validate($request, [
-        'service' => 'required|in:mapzen',
+        'service' => 'required|in:mapzen,census',
         'api' => 'required_if:service,mapzen',
         ]);
 
         // Clear out DB of old keys
         Settings::where('setting_name', 'geocoder service')->delete();
         Settings::where('setting_name', 'geocoder API key')->delete();
-
-        $API = trim($request['api']);
-
+        
+        if($request['service'] == 'mapzen'){
+            
+            $API = trim($request['api']);
+            
+        }elseif($request['service'] == 'census'){
+            
+            $API = 'Not Needed for this Service';
+            
+        }
+        
         Settings::create([
             'setting_name' => 'geocoder service',
             'setting_value' => $request['service'],
