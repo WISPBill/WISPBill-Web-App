@@ -57,7 +57,7 @@ class settingscontroller extends Controller
     public function setgeocoder(Request $request)
     {
          $this->validate($request, [
-        'service' => 'required|in:mapzen,census',
+        'service' => 'required|in:mapzen,census,manual',
         'api' => 'required_if:service,mapzen',
         ]);
 
@@ -70,6 +70,10 @@ class settingscontroller extends Controller
             $API = trim($request['api']);
             
         }elseif($request['service'] == 'census'){
+            
+            $API = 'Not Needed for this Service';
+            
+        }elseif($request['service'] == 'manual'){
             
             $API = 'Not Needed for this Service';
             

@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('page-header')
 	 <link rel="stylesheet" href="{{ asset('/plugins/datatables/dataTables.bootstrap.css') }}">
+	 
+	   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+  <style>
+    #map{ min-width: inherit; min-height: 550px; }
+  </style>
 @endsection
 @section('htmlheader_title')
 	Add a Location to a Lead
@@ -99,6 +106,16 @@
                   <input type="text" class="form-control" name="state" placeholder="Enter State">
                 </div>
             </span>
+            
+            @if ($geoservice == 'manual')
+                <input type="hidden" name="geocoder" value="manual">
+                <input type="hidden" name="lat" id="lat" value="">
+				<input type="hidden" name="lon" id="lon" value="">
+				<label>Lead Location</label>
+				 <div id="map"></div>
+            @else
+                <input type="hidden" name="geocoder" value="auto">
+            @endif
 				<div class="box-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
@@ -135,5 +152,32 @@
                 } 
             });
         });
+  </script>
+              <script>
+  // initialize the map
+
+  var map = L.map('map').setView([{{$mapsettings['lat']}}, {{$mapsettings['lon']}}], {{$mapsettings['zoom']}});
+
+  // load a tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      
+    }).addTo(map);
+
+    var tower = L.marker([{{$mapsettings['lat']}}, {{$mapsettings['lon']}}],{
+	 draggable: true,
+	 title: 'Drag Me to the Location'
+	 }).addTo(map).bindPopup('Drag Me to the Location');
+	 
+	 function getExtent(e) {
+              var lat = tower.getLatLng().lat;
+              var lng = tower.getLatLng().lng;
+		  
+		  document.getElementById('lat').value = lat;
+          document.getElementById('lon').value = lng;
+        }
+        map.on('mouseout', getExtent);
+     
   </script>
 @endsection 

@@ -82,6 +82,12 @@ class Helper
                 
                 return($coordinates);
                 }
+        }elseif($service['setting_value'] === 'manual'){
+	    
+	        // This code should never run
+	        
+	        abort(500, 'The Geocoding System is Set to Manual');
+                
         }else{
             
             abort(500, 'Failed to find Geocoding Service in DB');

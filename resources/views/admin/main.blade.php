@@ -89,8 +89,9 @@
 					<label>Geocoding Service</label>
                     <select class="form-control" name="service" required>
 					<option value='' selected disabled>Please Select a Service</option>
-                    <option value="mapzen">Mapzen Search (Based on OpenAddress)</option>
-                    <option value="census">US Census Geocoder (Residential Only)</option>
+                    <option value="mapzen">Mapzen Search (Based on OpenAddress API Key Required)</option>
+                    <option value="census">US Census Geocoder (Residential Only API Key Not Required)</option>
+                     <option value="manual">Manual (Map Based API Key Not Required)</option>
 					</select>
                 </div>
                

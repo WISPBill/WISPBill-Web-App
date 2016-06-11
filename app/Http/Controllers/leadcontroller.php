@@ -53,8 +53,25 @@ class leadcontroller extends Controller
     {
         $total = Customer_info::count();
         $leads = Customer_info::all();
+        
+        $geoservice = Settings::where('setting_name', 'geocoder service')->first();
+        $geoservice = $geoservice['setting_value'];
+        
+        $lat = Settings::where('setting_name', 'map lat')->first();
+        $lon = Settings::where('setting_name', 'map lon')->first();
+        $zoom = Settings::where('setting_name', 'map zoom')->first();
 
-        return view('lead.addlocation', compact('leads','total'));
+        $lat = $lat['setting_value'];
+        $lon = $lon['setting_value'];
+        $zoom = $zoom['setting_value'];
+
+        $mapsettings = array(
+        "lat" => "$lat",
+        "lon" => "$lon",
+        "zoom" => "$zoom",
+        );
+        
+        return view('lead.addlocation', compact('leads','total','geoservice','mapsettings'));
     }
 
     public function storeaddlocation(Request $request)
@@ -66,8 +83,11 @@ class leadcontroller extends Controller
         'city' => 'required_if:location,different',
         'zip' => 'required_if:location,different|numeric',
         'state' => 'required_if:location,different',
+        'lat' => 'required_if:geocoder,manual',
+        'lon' => 'required_if:geocoder,manual',
+        'geocoder' => 'required|in:manual,auto',
         ]);
-
+        
          if($request['location'] == 'same'){
              $customer = Customer_info::find($request['id']);
              $add = $customer['add'];
@@ -80,12 +100,25 @@ class leadcontroller extends Controller
             $state = $request['state'];
             $zip = $request['zip'];
          }
-         $place = "$add $city $state $zip";
+         
+         if($request['geocoder'] == 'auto'){
+             
+             $place = "$add $city $state $zip";
 
-        $cords = Helper::geocode("$place");
-
-        $lat = $cords['lat'];
-        $lon = $cords['lon'];
+             $cords = Helper::geocode("$place");
+ 
+             $lat = $cords['lat'];
+             $lon = $cords['lon'];
+             
+        }elseif($request['geocoder'] == 'manual'){
+            
+            $lat = $request['lat'];
+            $lon = $request['lon'];
+            
+        }else{
+            
+             abort(500, 'The Geocoding System is not Set');
+        }
 
         Customer_locations::create([
             'longitude' => $lon,
