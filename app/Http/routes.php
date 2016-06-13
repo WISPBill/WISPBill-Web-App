@@ -31,6 +31,7 @@ Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
 //Settings Routes
 Route::get('/settings', 'settingscontroller@main');
+Route::get('/viewusers', 'settingscontroller@indexusers');
 Route::post('/setstripekey', 'settingscontroller@setstripekey');
 Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
 Route::post('/setmapview', 'settingscontroller@setmapview');

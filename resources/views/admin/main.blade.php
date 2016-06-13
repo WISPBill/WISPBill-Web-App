@@ -14,10 +14,30 @@
 
 @section('contentheader_title')
 	Settings
+
 @endsection
 
 @section('main-content')
 	<!-- general form elements disabled -->
+        <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+           
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>View User's</h3>
+
+              
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-stalker"></i>
+            </div>
+            <a href="/viewusers" class="small-box-footer">View<i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+       
+			</div>
+		  </div>
           <div class="box box-warning">
             <div class="box-header with-border">
 			<h4>Stipe API Keys</h4>

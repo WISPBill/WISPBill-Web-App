@@ -6,6 +6,8 @@ use App\Models\Settings;
 
 use Gate;
 
+use App\User;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -119,6 +121,15 @@ class settingscontroller extends Controller
             'setting_value' => $request['zoom'],
         ]);
         return redirect("/");
+    }
+    
+    public function indexusers()
+    {
+        $total = User::count();
+        $users = User::all();
+
+        return view('admin.viewusers', compact('users','total'));
+
     }
 
 }
