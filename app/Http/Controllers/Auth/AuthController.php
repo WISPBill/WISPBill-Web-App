@@ -53,7 +53,7 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
             'skin' => 'required|in:skin-blue,skin-blue-light,skin-yellow,skin-yellow-light,skin-green,skin-green-light,skin-purple,skin-purple-light,skin-red,skin-red-light,skin-black,skin-black-light',
-            'img' => 'required|image|mimes:jpeg',
+            'img' => 'image|mimes:jpeg',
             'role' => 'required|in:admin,nonadmin',
             'phone' => 'required|regex:/\d{3}\-\d{3}\-\d{4}/',
         ]);
@@ -67,7 +67,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-      
+      if(isset($data['img'])){
         $extension = pathinfo($data['img'],PATHINFO_EXTENSION);
         $email = $data['email'];
         $number = rand(0,1000);
@@ -76,7 +76,9 @@ class AuthController extends Controller
         move_uploaded_file($data['img'], "$pubpath/img/userimg/$newname");
         $img = Image::make("$pubpath/img/userimg/$newname");
         $img->resize(160, 160);
-        
+      }else{
+          $newname = "user_default_img.jpg";
+      }
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
