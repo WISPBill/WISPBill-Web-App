@@ -33,7 +33,19 @@
             <div class="icon">
               <i class="ion ion-person-stalker"></i>
             </div>
-            <a href="/viewusers" class="small-box-footer">View<i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/viewusers" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+          
+           <div class="small-box bg-green">
+            <div class="inner">
+              <h3>Manage User Permissions</h3>
+
+              
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-stalker"></i>
+            </div>
+            <a href="/manageusers" class="small-box-footer">Manage Permissions <i class="fa fa-arrow-circle-right"></i></a>
           </div>
        
 			</div>

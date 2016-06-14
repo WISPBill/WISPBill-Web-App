@@ -131,5 +131,25 @@ class settingscontroller extends Controller
         return view('admin.viewusers', compact('users','total'));
 
     }
+    
+    public function manageuserpermissions()
+    {
+        $total = User::count();
+        $users = User::all();
+
+        return view('admin.manageusers', compact('users','total'));
+
+    }
+    
+    public function storemanageuserpermissions(Request $request)
+    {
+         $this->validate($request, [
+        'userid' => 'required|numeric',
+        'role' => 'required|in:admin,nonadmin',
+        ]);
+
+        User::where('id', $request['userid'])->update(['role' => $request['role']]);
+        return redirect("/settings");
+    }
 
 }
