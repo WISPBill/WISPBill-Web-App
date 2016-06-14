@@ -19,6 +19,7 @@ class contactcontroller extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('role');
     }
     
     public function create()

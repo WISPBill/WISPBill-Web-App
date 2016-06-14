@@ -17,6 +17,7 @@ class settingscontroller extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('role');
         if (Gate::denies('admin')) {
             abort(403,'Unauthorized action.');
         }

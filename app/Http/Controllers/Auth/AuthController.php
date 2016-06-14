@@ -54,7 +54,6 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:6',
             'skin' => 'required|in:skin-blue,skin-blue-light,skin-yellow,skin-yellow-light,skin-green,skin-green-light,skin-purple,skin-purple-light,skin-red,skin-red-light,skin-black,skin-black-light',
             'img' => 'image|mimes:jpeg',
-            'role' => 'required|in:admin,nonadmin',
             'phone' => 'required|regex:/\d{3}\-\d{3}\-\d{4}/',
         ]);
     }
@@ -79,13 +78,24 @@ class AuthController extends Controller
       }else{
           $newname = "user_default_img.jpg";
       }
+      
+      $usertotal = User::count();
+      
+      if($usertotal > 0){
+          $role = 'No Access';
+      }elseif($usertotal == 0){
+          $role = 'admin';
+      }else{
+          abort(500, 'Issue with Database');
+      }
+          
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'skin' => $data['skin'],
             'img' => $newname,
-            'role' => $data['role'],
+            'role' => $role,
             'phone' => $data['phone'],
         ]);
     }
