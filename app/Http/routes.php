@@ -37,6 +37,7 @@ Route::post('/manageusers', 'settingscontroller@storemanageuserpermissions');
 Route::post('/setstripekey', 'settingscontroller@setstripekey');
 Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
 Route::post('/setmapview', 'settingscontroller@setmapview');
+Route::post('/togglesettings', 'settingscontroller@togglesettings');
 //Site Routes
 Route::get('/newsite', 'sitecontroller@create');
 Route::post('/newsite', 'sitecontroller@store');

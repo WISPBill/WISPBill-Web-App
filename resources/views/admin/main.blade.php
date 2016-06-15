@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('page-header')
+  <script src="{{asset('/plugins/jQuery/jQuery-2.1.4.min.js')}}"/></script> 
 	 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 	 <style>
     #map{ min-width: inherit; min-height: 500px; }
   </style>
@@ -184,6 +187,41 @@
                
 				<div class="box-footer">
                 <button type="submit" class="btn btn-primary">Save View</button>
+              </div>
+     
+              </form>
+			</div>
+		  </div>
+		  
+		   <div class="box box-warning">
+            <div class="box-header with-border">
+			<h4>General Settings</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+         
+              <form role="form" action="/togglesettings"method="post">
+                <!-- text input -->
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+		
+                <div class="checkbox">
+          <h4>
+          <input type="checkbox" name="pin" 
+          @if ($verifypin == true)
+          checked
+          @elseif ($verifypin == false)
+          
+          @else
+          
+          @endif 
+          data-toggle="toggle" data-size="large">
+            Customer PIN Verification Required for Actions done by Technicians and Agents
+          </h4>
+            </div>
+
+
+				<div class="box-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
               </div>
      
               </form>

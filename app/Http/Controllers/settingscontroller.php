@@ -27,8 +27,11 @@ class settingscontroller extends Controller
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
         $key = $api['setting_value'];
+        
+        $verifypin = Settings::where('setting_name', 'Customer PIN')->first();
+        $verifypin = $verifypin['setting_value'];
 
-        return view('admin.main',compact('key'));
+        return view('admin.main',compact('key','verifypin'));
     }
 
      public function setstripekey(Request $request)
@@ -151,6 +154,28 @@ class settingscontroller extends Controller
 
         User::where('id', $request['userid'])->update(['role' => $request['role']]);
         return redirect("/settings");
+    }
+    
+    public function togglesettings(Request $request)
+    {
+
+        // Clear out DB of old settings
+        Settings::where('setting_name', 'Customer PIN')->delete();
+        
+        if(isset($request['pin'])){
+            $pinvalue = true;
+        }elseif(!isset($request['pin'])){
+            $pinvalue = false;
+        }else{
+            abort(500, 'Unexpected Issue Please Contact Administrator');
+        }
+        
+        Settings::create([
+            'setting_name' => 'Customer PIN',
+            'setting_value' => $pinvalue,
+        ]);
+        
+        return redirect("/");
     }
 
 }
