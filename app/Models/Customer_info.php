@@ -13,7 +13,7 @@ class Customer_info extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'type','add','city','zip','state','source','tel','pin'
+        'name', 'email', 'type','add','city','zip','state','source','tel','pin','billing_id'
     ];
 
      public function locations()

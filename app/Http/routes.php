@@ -31,6 +31,8 @@ Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
 Route::get('/addleadaccount', 'leadcontroller@addaccount');
 Route::post('/addleadaccount', 'leadcontroller@storeaddaccount');
+Route::get('/addleadbilling', 'leadcontroller@addbilling');
+Route::post('/addleadbilling', 'leadcontroller@addbillingstore');
 //Settings Routes
 Route::get('/settings', 'settingscontroller@main');
 Route::get('/viewusers', 'settingscontroller@indexusers');

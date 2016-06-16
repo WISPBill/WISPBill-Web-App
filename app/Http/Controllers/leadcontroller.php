@@ -10,6 +10,8 @@ use App\Models\Customer_locations;
 
 use App\Helpers\Helper;
 
+use App\Helpers\Billing;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -54,8 +56,8 @@ class leadcontroller extends Controller
 
     public function addlocation()
     {
-        $total = Customer_info::count();
-        $leads = Customer_info::all();
+        $total = Customer_info::whereNull('billing_id')->count();
+        $leads = Customer_info::whereNull('billing_id')->get();
         
         $geoservice = Settings::where('setting_name', 'geocoder service')->first();
         $geoservice = $geoservice['setting_value'];
@@ -162,6 +164,7 @@ class leadcontroller extends Controller
             'source' => $request['source'],
             'tel' => $request['tel'],
             'pin' => NULL,
+            'billing_id' => NULL,
         ]);
         $id = $lead['id'];
         return redirect("/viewalead/$id");
@@ -169,8 +172,8 @@ class leadcontroller extends Controller
 
     public function index()
     {
-        $total = Customer_info::count();
-        $leads = Customer_info::all();
+        $total = Customer_info::whereNull('billing_id')->count();
+        $leads = Customer_info::whereNull('billing_id')->get();
 
         return view('lead.view', compact('leads','total'));
     }
@@ -185,8 +188,8 @@ class leadcontroller extends Controller
     
     public function addaccount()
     {
-        $total = Customer_info::has('users', '<', 1)->count();
-        $leads = Customer_info::has('users', '<', 1)->get();
+        $total = Customer_info::has('users', '<', 1)->whereNull('billing_id')->count();
+        $leads = Customer_info::has('users', '<', 1)->whereNull('billing_id')->get();
         
         $pin = Settings::where('setting_name', 'Customer PIN')->first();
         $pin = $pin['setting_value'];
@@ -218,6 +221,33 @@ class leadcontroller extends Controller
         ]);
         
         $customer->pin = bcrypt($request['pin']);
+
+        $customer->save();
+        
+        return redirect("/");
+    }
+    
+     public function addbilling()
+    {
+        $total = Customer_info::whereNull('billing_id')->count();
+        $leads = Customer_info::whereNull('billing_id')->get();
+        
+        return view('lead.addbilling', compact('leads','total'));
+    }
+    
+    public function addbillingstore(Request $request)
+    {
+         $this->validate($request, [
+         'id' => 'required|numeric',
+        ]);
+        
+        $id = $request['id'];
+        
+        $billingid = Billing::createcustomer($id,$request);
+        
+        $customer = Customer_info::find($id);
+
+        $customer->billing_id = $billingid;
 
         $customer->save();
         
