@@ -31,6 +31,7 @@
                     <li><a href="/addleadlocation">Add a Location to a Lead</a></li>
                     <li><a href="/viewlead">View Lead's</a></li>
                     <li><a href="/maplead">Map Lead's</a></li>
+                    <li><a href="/addleadaccount">Add an Account to a Lead</a></li>
                 </ul>
             </li>
             <li class="treeview">

@@ -29,6 +29,8 @@ Route::get('/addleadlocation', 'leadcontroller@addlocation');
 Route::post('/addleadlocation', 'leadcontroller@storeaddlocation');
 Route::get('/viewlead', 'leadcontroller@index');
 Route::get('/viewalead/{id}', 'leadcontroller@show');
+Route::get('/addleadaccount', 'leadcontroller@addaccount');
+Route::post('/addleadaccount', 'leadcontroller@storeaddaccount');
 //Settings Routes
 Route::get('/settings', 'settingscontroller@main');
 Route::get('/viewusers', 'settingscontroller@indexusers');
@@ -55,3 +57,7 @@ Route::post('/addcontactsite', 'contactcontroller@storeadd');
 Route::get('/viewcontacts', 'contactcontroller@index');
 Route::get('/contact/newnote', 'contactcontroller@notecreate');
 Route::post('/contact/newnote', 'contactcontroller@notestore');
+//Placeholder routes
+Route::get('/customer/', function () {
+    return view('lander');
+});

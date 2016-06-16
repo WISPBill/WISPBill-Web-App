@@ -19,8 +19,9 @@ class UserRolesMiddleware
     {
         if ( Auth::user()->role == 'No Access') {
             return redirect('logout');
+        }elseif(Auth::user()->role == 'Customer'){
+            return redirect('/customer/');
         }else{
-
         return $next($request);
         }
     }

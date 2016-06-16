@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\User;
+
 class leadcontroller extends Controller
 {
 
@@ -140,7 +142,7 @@ class leadcontroller extends Controller
          $this->validate($request, [
         'type' => 'required|in:residential,business',
         'name' => 'required',
-        'email' => 'required|email|max:255|unique:customer_info',
+        'email' => 'required|email|max:255|unique:customer_info|unique:users',
         'tel' => 'required|regex:/\d{3}\-\d{3}\-\d{4}/',
         'add' => 'required',
         'city' => 'required',
@@ -159,6 +161,7 @@ class leadcontroller extends Controller
             'state' => $request['state'],
             'source' => $request['source'],
             'tel' => $request['tel'],
+            'pin' => NULL,
         ]);
         $id = $lead['id'];
         return redirect("/viewalead/$id");
@@ -178,5 +181,46 @@ class leadcontroller extends Controller
         $leads['1'] = Customer_info::findOrFail($id);
 
       return view('lead.view', compact('leads','total'));
+    }
+    
+    public function addaccount()
+    {
+        $total = Customer_info::has('users', '<', 1)->count();
+        $leads = Customer_info::has('users', '<', 1)->get();
+        
+        $pin = Settings::where('setting_name', 'Customer PIN')->first();
+        $pin = $pin['setting_value'];
+        
+        return view('lead.addaccount', compact('leads','total','pin'));
+    }
+    
+    public function storeaddaccount(Request $request)
+    {
+         $this->validate($request, [
+         'name' => 'required|max:255',
+         'password' => 'required|confirmed|min:6',
+         'pin' => 'required_if:setpin,true|confirmed|min:4|numeric',
+         'theme' => 'required|in:skin-blue,skin-blue-light,skin-yellow,skin-yellow-light,skin-green,skin-green-light,skin-purple,skin-purple-light,skin-red,skin-red-light,skin-black,skin-black-light',
+         'id' => 'required|numeric',
+        ]);
+        
+        $customer = Customer_info::find($request['id']);
+        
+        User::create([
+            'name' => $request['name'],
+            'email' => $customer['email'],
+            'password' => bcrypt($request['password']),
+            'skin' => $request['theme'],
+            'img' => 'user_default_img.jpg',
+            'role' => 'Customer',
+            'phone' => $customer['tel'],
+            'customer_info_id' => $request['id'],
+        ]);
+        
+        $customer->pin = bcrypt($request['pin']);
+
+        $customer->save();
+        
+        return redirect("/");
     }
 }

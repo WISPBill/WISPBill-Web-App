@@ -23,6 +23,7 @@ class CreateCustomerInfoTable extends Migration
             $table->string('state');
             $table->string('source');
             $table->string('tel');
+            $table->string('pin')->nullable();
             $table->timestamps();
         });
     }

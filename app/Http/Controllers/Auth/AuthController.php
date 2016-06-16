@@ -97,6 +97,7 @@ class AuthController extends Controller
             'img' => $newname,
             'role' => $role,
             'phone' => $data['phone'],
+            'customer_info_id' => NULL,
         ]);
     }
 }

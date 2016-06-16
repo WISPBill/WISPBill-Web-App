@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','skin','img','role','phone'
+        'name', 'email', 'password','skin','img','role','phone','customer_info_id'
     ];
 
     /**
@@ -32,5 +32,10 @@ class User extends Authenticatable
     public function sitenotes()
     {
         return $this->hasMany('App\Models\Site_Notes','id');
+    }
+    
+    public function customer()
+    {
+        return $this->belongsTo('App\Models\Customer_info','customer_info_id','id');
     }
 }
