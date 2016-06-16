@@ -5,6 +5,8 @@ use App\Models\Settings;
 
 use App\Models\Customer_info;
 
+use Illuminate\Http\Request;
+
 class Billing
 {
     public static function displayform() { 
@@ -25,7 +27,8 @@ class Billing
           data-zip-code="true"
           data-label="Add Billing Info"
           data-panel-label="Submit Info"
-          data-description="Enter Billing Info">
+          data-description="Enter Billing Info"
+          data-billing-address="true">
  					 </script>';
           
     	}else{
@@ -48,7 +51,7 @@ class Billing
     		
     		$stripe = \Stripe\Customer::create(array(
   			"description" => $customer['name'],
-  			"source" => $request['token'],
+  			"source" => $request['stripeToken'],
   			"email" => $customer['email'],
 				));
 				
