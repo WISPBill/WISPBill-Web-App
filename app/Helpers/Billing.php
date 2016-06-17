@@ -64,6 +64,32 @@ class Billing
     	}
     	
     }
+    
+    public static function createplan($price,$interval,$name,$id) { 
+    	$service = 'Stripe'; // Placeholder
+    	
+    	if($service == 'Stripe'){
+    		
+    		$price = $price *100;
+    		
+    		$stripekey = Settings::where('setting_name', 'stripe secret key')->first();
+    		$stripekey = $stripekey['setting_value'];
+    		
+    		\Stripe\Stripe::setApiKey("$stripekey");
+    		
+    		\Stripe\Plan::create(array(
+              "amount" => $price,
+              "interval" => $interval,
+              "name" => $name,
+              "currency" => "usd",
+              "id" => $id)
+            );
+
+    	}else{
+    		// Do Nothing
+    	}
+    	
+    }
 
 }
 

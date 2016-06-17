@@ -35,6 +35,12 @@
                     <li><a href="/addleadbilling">Add Billing Info to a Lead</a></li>
                 </ul>
             </li>
+              <li class="treeview">
+          <a href="#"><i class="fa fa-cart-plus"></i> <span>Service Plans</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="/newplan">Create a Service Plan</a></li>
+          </ul>
+        </li>
             <li class="treeview">
                 <a href="#"><i class='fa fa-location-arrow'></i> <span>Site Management</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

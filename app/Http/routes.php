@@ -59,6 +59,9 @@ Route::post('/addcontactsite', 'contactcontroller@storeadd');
 Route::get('/viewcontacts', 'contactcontroller@index');
 Route::get('/contact/newnote', 'contactcontroller@notecreate');
 Route::post('/contact/newnote', 'contactcontroller@notestore');
+//Plan Routes 
+Route::get('/newplan', 'plancontroller@create');
+Route::post('/newplan', 'plancontroller@store');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');
