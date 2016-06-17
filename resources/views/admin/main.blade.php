@@ -248,6 +248,21 @@
             Data Limits for Service Plans
           </h4>
             </div>
+            
+                          <div class="checkbox">
+          <h4>
+          <input type="checkbox" name="burst" 
+          @if ($burst == true)
+          checked
+          @elseif ($burst == false)
+          
+          @else
+          
+          @endif 
+          data-toggle="toggle" data-size="large">
+            Rate Limit Bursting for Service Plans
+          </h4>
+            </div>
 
 
 				<div class="box-footer">

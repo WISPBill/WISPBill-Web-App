@@ -36,8 +36,11 @@ class settingscontroller extends Controller
         
         $data = Settings::where('setting_name', 'Data Cap Plans')->first();
         $data = $data['setting_value'];
+        
+        $burst = Settings::where('setting_name', 'Rate Limit Bursting Plans')->first();
+        $burst = $burst['setting_value'];
 
-        return view('admin.main',compact('key','verifypin','speed','data'));
+        return view('admin.main',compact('key','verifypin','speed','data','burst'));
     }
 
      public function setstripekey(Request $request)
@@ -169,7 +172,7 @@ class settingscontroller extends Controller
         Settings::where('setting_name', 'Customer PIN')->delete();
         Settings::where('setting_name', 'Rate Limit Plans')->delete();
         Settings::where('setting_name', 'Data Cap Plans')->delete();
-
+        Settings::where('setting_name', 'Rate Limit Bursting Plans')->delete();
 
         if(isset($request['pin'])){
             $pinvalue = true;
@@ -195,6 +198,14 @@ class settingscontroller extends Controller
             abort(500, 'Unexpected Issue Please Contact Administrator');
         }
         
+        if(isset($request['burst'])){
+            $burst = true;
+        }elseif(!isset($request['burst'])){
+            $burst = false;
+        }else{
+            abort(500, 'Unexpected Issue Please Contact Administrator');
+        }
+        
         Settings::create([
             'setting_name' => 'Customer PIN',
             'setting_value' => $pinvalue,
@@ -208,6 +219,11 @@ class settingscontroller extends Controller
         Settings::create([
             'setting_name' => 'Data Cap Plans',
             'setting_value' => $data,
+        ]);
+        
+        Settings::create([
+            'setting_name' => 'Rate Limit Bursting Plans',
+            'setting_value' => $burst,
         ]);
         
         return redirect("/");
