@@ -30,8 +30,14 @@ class settingscontroller extends Controller
         
         $verifypin = Settings::where('setting_name', 'Customer PIN')->first();
         $verifypin = $verifypin['setting_value'];
+        
+        $speed = Settings::where('setting_name', 'Rate Limit Plans')->first();
+        $speed = $speed['setting_value'];
+        
+        $data = Settings::where('setting_name', 'Data Cap Plans')->first();
+        $data = $data['setting_value'];
 
-        return view('admin.main',compact('key','verifypin'));
+        return view('admin.main',compact('key','verifypin','speed','data'));
     }
 
      public function setstripekey(Request $request)
@@ -161,7 +167,10 @@ class settingscontroller extends Controller
 
         // Clear out DB of old settings
         Settings::where('setting_name', 'Customer PIN')->delete();
-        
+        Settings::where('setting_name', 'Rate Limit Plans')->delete();
+        Settings::where('setting_name', 'Data Cap Plans')->delete();
+
+
         if(isset($request['pin'])){
             $pinvalue = true;
         }elseif(!isset($request['pin'])){
@@ -170,9 +179,35 @@ class settingscontroller extends Controller
             abort(500, 'Unexpected Issue Please Contact Administrator');
         }
         
+        if(isset($request['speed'])){
+            $speed = true;
+        }elseif(!isset($request['speed'])){
+            $speed = false;
+        }else{
+            abort(500, 'Unexpected Issue Please Contact Administrator');
+        }
+        
+        if(isset($request['data'])){
+            $data = true;
+        }elseif(!isset($request['data'])){
+            $data = false;
+        }else{
+            abort(500, 'Unexpected Issue Please Contact Administrator');
+        }
+        
         Settings::create([
             'setting_name' => 'Customer PIN',
             'setting_value' => $pinvalue,
+        ]);
+        
+        Settings::create([
+            'setting_name' => 'Rate Limit Plans',
+            'setting_value' => $speed,
+        ]);
+        
+        Settings::create([
+            'setting_name' => 'Data Cap Plans',
+            'setting_value' => $data,
         ]);
         
         return redirect("/");

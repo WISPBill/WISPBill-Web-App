@@ -218,6 +218,36 @@
             Customer PIN Verification Required for Actions done by Technicians and Agents
           </h4>
             </div>
+            
+              <div class="checkbox">
+          <h4>
+          <input type="checkbox" name="speed" 
+          @if ($speed == true)
+          checked
+          @elseif ($speed == false)
+          
+          @else
+          
+          @endif 
+          data-toggle="toggle" data-size="large">
+            Rate Limiting for Service Plans
+          </h4>
+            </div>
+            
+              <div class="checkbox">
+          <h4>
+          <input type="checkbox" name="data" 
+          @if ($data == true)
+          checked
+          @elseif ($data == false)
+          
+          @else
+          
+          @endif 
+          data-toggle="toggle" data-size="large">
+            Data Limits for Service Plans
+          </h4>
+            </div>
 
 
 				<div class="box-footer">

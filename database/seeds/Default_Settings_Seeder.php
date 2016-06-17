@@ -17,5 +17,15 @@ class Default_Settings_Seeder extends Seeder
             'setting_name' => 'Customer PIN',
             'setting_value' => true,
         ]);
+        
+        Settings::create([
+            'setting_name' => 'Rate Limit Plans',
+            'setting_value' => true,
+        ]);
+        
+        Settings::create([
+            'setting_name' => 'Data Cap Plans',
+            'setting_value' => false,
+        ]);
     }
 }
