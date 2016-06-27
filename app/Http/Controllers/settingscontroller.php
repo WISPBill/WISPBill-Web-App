@@ -228,5 +228,24 @@ class settingscontroller extends Controller
         
         return redirect("/");
     }
+    
+     public function mailmarketingurl(Request $request)
+    {
+         $this->validate($request, [
+        'url' => 'required|url',
+        ]);
+
+        // Clear out DB of old keys
+        Settings::where('setting_name', 'Open-Mail-Marketing URL')->delete();
+
+        $url = trim($request['url']);
+
+        Settings::create([
+            'setting_name' => 'Open-Mail-Marketing URL',
+            'setting_value' => $url,
+        ]);
+
+        return redirect("/");
+    }
 
 }

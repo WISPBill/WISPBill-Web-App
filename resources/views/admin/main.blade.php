@@ -272,4 +272,39 @@
               </form>
 			</div>
 		  </div>
+		  
+		       <div class="box box-success">
+            <div class="box-header with-border">
+			<h4>Open-Mail-Marketing</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            @if (count($errors->get('url')) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->get('url') as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+		
+        </ul>
+    </div>
+@endif
+              <form role="form" action="/setmailmarketingurl"method="post">
+                <!-- text input -->
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+				
+               
+               <div class="form-group">
+              <label>URL</label>
+                  
+                  <input type="url" class="form-control" name="url" placeholder="Enter URL">
+                </div>
+
+				<div class="box-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+     
+              </form>
+			</div>
+		  </div>
 @endsection

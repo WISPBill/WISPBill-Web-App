@@ -42,6 +42,7 @@ Route::post('/setstripekey', 'settingscontroller@setstripekey');
 Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
 Route::post('/setmapview', 'settingscontroller@setmapview');
 Route::post('/togglesettings', 'settingscontroller@togglesettings');
+Route::post('/setmailmarketingurl', 'settingscontroller@mailmarketingurl');
 //Site Routes
 Route::get('/newsite', 'sitecontroller@create');
 Route::post('/newsite', 'sitecontroller@store');
@@ -62,6 +63,9 @@ Route::post('/contact/newnote', 'contactcontroller@notestore');
 //Plan Routes 
 Route::get('/newplan', 'plancontroller@create');
 Route::post('/newplan', 'plancontroller@store');
+//Marketing Routes 
+Route::get('/marketinglist', 'marketingcontroller@listsites');
+Route::post('/marketinglist', 'marketingcontroller@getlist');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');
