@@ -54,6 +54,7 @@
           </ul></li>
                     <li><a href="/newsite">Create a Site</a></li>
                     <li><a href="/editcoverage">Edit Site Coverage</a></li>
+                    <li><a href="/mapcoverage">Map Coverage</a></li>
                     <li><a href="/mapsites">Map Sites</a></li>
                      <li><a href="/viewsites">View Sites</a></li>
                      <li><a href="/site/newnote">Create a Note about a Site</a></li>

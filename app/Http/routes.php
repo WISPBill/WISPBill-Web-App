@@ -49,6 +49,7 @@ Route::post('/newsite', 'sitecontroller@store');
 Route::get('/editcoverage', 'sitecontroller@coverage');
 Route::post('/editcoverage', 'sitecontroller@storecoverage');
 Route::get('/mapsites', 'sitecontroller@map');
+Route::get('/mapcoverage', 'sitecontroller@mapcoverage');
 Route::get('/viewsites', 'sitecontroller@index');
 Route::get('/site/newnote', 'sitecontroller@notecreate');
 Route::post('/site/newnote', 'sitecontroller@notestore');
