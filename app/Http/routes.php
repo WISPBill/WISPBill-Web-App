@@ -64,6 +64,7 @@ Route::post('/contact/newnote', 'contactcontroller@notestore');
 //Plan Routes 
 Route::get('/newplan', 'plancontroller@create');
 Route::post('/newplan', 'plancontroller@store');
+Route::get('/viewplans', 'plancontroller@index');
 //Marketing Routes 
 Route::get('/marketinglist', 'marketingcontroller@listsites');
 Route::post('/marketinglist', 'marketingcontroller@getlist');

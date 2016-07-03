@@ -98,4 +98,60 @@ class plancontroller extends Controller
         
         return redirect("/");
     }
+    
+     public function index()
+    {
+        $total = Plans::count();
+        
+        $plans = Plans::with('attributes')->get();
+        
+        $planattributevalues = array();
+        
+        foreach($plans as $plan){
+        
+            $attributes = $plan->attributes;
+            
+            $attributevalues = array(
+                "downrate" => "Disabled For This Plan",
+                "uprate" => "Disabled For This Plan",
+                "downcap" => "Disabled For This Plan",
+                "upcap" => "Disabled For This Plan",
+                );
+        
+            foreach($attributes as $attribute){
+                
+                
+                if($attribute['attribute_name'] == 'Download Rate in Mbps'){
+                    
+                    $downrate = $attribute['attribute_value'];
+                    
+                }elseif($attribute['attribute_name'] == 'Upload Rate in Mbps'){
+                    
+                    $uprate = $attribute['attribute_value'];
+                    
+                }elseif($attribute['attribute_name'] == 'Download Data Cap in GB'){
+                    
+                    $downcap = $attribute['attribute_value'];
+                    
+                }elseif($attribute['attribute_name'] == 'Upload Data Cap in GB'){
+                    
+                    $upcap = $attribute['attribute_value'];
+                    
+                }
+            
+            }
+            
+            $attributevalues['upcap'] = $upcap;
+            $attributevalues['downcap'] = $downcap;
+            $attributevalues['downrate'] = $downrate;
+            $attributevalues['uprate'] = $uprate;
+            
+            $planattributevalues[$plan->id] = $attributevalues;
+            
+            $upcap = $downcap = $uprate = $downrate = 'Disabled For This Plan';
+            
+        }
+
+        return view('plan.view', compact('plans','total','planattributevalues'));
+    }
 }
