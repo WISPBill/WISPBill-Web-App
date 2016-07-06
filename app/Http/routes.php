@@ -68,6 +68,9 @@ Route::get('/viewplans', 'plancontroller@index');
 //Marketing Routes 
 Route::get('/marketinglist', 'marketingcontroller@listsites');
 Route::post('/marketinglist', 'marketingcontroller@getlist');
+//Monitoring Routes
+Route::get('/newnetwork', 'monitoringcontroller@networkcreate');
+Route::post('/newnetwork', 'monitoringcontroller@networkstore');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');
