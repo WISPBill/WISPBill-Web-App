@@ -307,4 +307,38 @@
               </form>
 			</div>
 		  </div>
+		  
+		           <div class="box box-success">
+            <div class="box-header with-border">
+			<h4>Geocoder</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            @if (count($errors->get('ssh')) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->get('ssh') as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+
+        </ul>
+    </div>
+@endif
+              <form role="form" action="/setssh"method="post">
+                <!-- text input -->
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+           
+               <div class="form-group">
+              <label>SSH Port</label>
+                  
+                  <input type="number" min="1" class="form-control" name="ssh" placeholder="Enter SSH Port">
+                </div>
+
+				<div class="box-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+     
+              </form>
+			</div>
+		  </div>
 @endsection

@@ -32,5 +32,10 @@ class Default_Settings_Seeder extends Seeder
             'setting_name' => 'Rate Limit Bursting Plans',
             'setting_value' => false,
         ]);
+        
+        Settings::create([
+            'setting_name' => 'SSH Port',
+            'setting_value' => '22',
+        ]);
     }
 }

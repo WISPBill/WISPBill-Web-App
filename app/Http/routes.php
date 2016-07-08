@@ -43,6 +43,7 @@ Route::post('/setgeocoder', 'settingscontroller@setgeocoder');
 Route::post('/setmapview', 'settingscontroller@setmapview');
 Route::post('/togglesettings', 'settingscontroller@togglesettings');
 Route::post('/setmailmarketingurl', 'settingscontroller@mailmarketingurl');
+Route::post('/setssh', 'settingscontroller@setssh');
 //Site Routes
 Route::get('/newsite', 'sitecontroller@create');
 Route::post('/newsite', 'sitecontroller@store');

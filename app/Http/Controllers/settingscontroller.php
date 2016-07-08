@@ -247,5 +247,21 @@ class settingscontroller extends Controller
 
         return redirect("/");
     }
+    
+    public function setssh(Request $request)
+    {
+         $this->validate($request, [
+        'ssh' => 'required|numeric',
+        ]);
+
+        // Clear out DB of old keys
+        Settings::where('setting_name', 'SSH Port')->delete();
+
+        Settings::create([
+            'setting_name' => 'SSH Port',
+            'setting_value' => $request['ssh'],
+        ]);
+        return redirect("/");
+    }
 
 }
