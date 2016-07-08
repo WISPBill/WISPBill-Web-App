@@ -11,4 +11,9 @@ class Networks extends Model
       protected $fillable = [
         'ip', 'CIDR'
     ];
+    
+     public function ips()
+    {
+        return $this->hasMany('App\Models\DeviceIPs','network_id','id');
+    }
 }

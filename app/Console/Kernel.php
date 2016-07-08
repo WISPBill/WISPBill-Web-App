@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Models\Networks;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -13,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+        Commands\MonitoringNetworkPing::class,
+        
     ];
 
     /**
@@ -24,7 +27,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            
+            $networks = Networks::all();
+            
+            foreach($networks as $network){
+                
+                 $this->call('monitoring:pingnetwork', [
+                'network' => $network->id
+                ]);
+
+            }
+            
+        })->everyFiveMinutes()->name('monitoring:pingnetwork')->withoutOverlapping();
+        
     }
-}
+    }
