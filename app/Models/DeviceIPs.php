@@ -20,4 +20,10 @@ class DeviceIPs extends Model
     {
         return $this->belongsTo('App\Models\Networks','network_id','id');
     }
+    
+     public function SSH_Credentials()
+    {
+        return $this->hasOne('App\Models\SSHCredentials','device_IP_id','id');
+    }
+    
 }

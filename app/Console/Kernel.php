@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
 
             }
             
-        })->everyFiveMinutes()->name('monitoring:pingnetwork')->withoutOverlapping();
+        })->everyFiveMinutes()->name('monitoring:pingnetwork');
         
     }
     }

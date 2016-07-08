@@ -8,6 +8,10 @@ use App\Models\Networks;
 
 use App\Models\DeviceIPs;
 
+use Event;
+
+use App\Events\NewIP;
+
 class MonitoringNetworkPing extends Command
 {
     /**
@@ -60,10 +64,20 @@ class MonitoringNetworkPing extends Command
         
         foreach($upips as $ip){
             
-        DeviceIPs::firstOrCreate([
-            'address' => $ip,
-            'network_id' => $networkid,
-            ]);
+            $address = DeviceIPs::firstOrCreate([
+                'address' => $ip,
+                'network_id' => $networkid,
+                ]);
+            
+            $creationtime = $address['created_at'];
+            
+            $unixtime = date_format($creationtime,'U');
+            
+            if(time() - $unixtime < 200){
+                
+                event(new NewIP($address));
+                
+            }
             
         }
         
