@@ -42,8 +42,6 @@ class FindSSH
         if(str_contains($ping,'22/tcp open  ssh')){
             
              SSHCredentials::firstOrCreate([
-            'username' => NULL,
-            'password' => NULL,
             'device_IP_id' => $addressid,
             ]);
             
