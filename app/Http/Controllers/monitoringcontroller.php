@@ -12,6 +12,10 @@ use App\Models\SSHCredentials;
 
 use App\Models\DeviceIPs;
 
+use Event;
+
+use App\Events\NewSSH;
+
 class monitoringcontroller extends Controller
 {
     public function __construct()
@@ -32,7 +36,7 @@ class monitoringcontroller extends Controller
         'CIDR' => 'required|integer',
         ]);
         
-         $plan = Networks::create([
+         Networks::create([
             'ip' => $request['IP'],
             'CIDR' => $request['CIDR'],
         ]);
@@ -63,6 +67,10 @@ class monitoringcontroller extends Controller
         $server->password = $request['password'];
 
         $server->save();
+        
+        $SSHCredentials = SSHCredentials::with('IP')->where('id', $request['id'])->get();
+        
+        event(new NewSSH($SSHCredentials));
         
         return redirect("/");
     }

@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewIP' => [
             'App\Listeners\FindSSH',
         ],
+        'App\Events\NewSSH' => [
+            'App\Listeners\DiscoverDevice',
+        ],
     ];
 
     /**
