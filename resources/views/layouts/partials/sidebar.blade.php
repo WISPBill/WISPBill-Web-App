@@ -39,6 +39,7 @@
           <a href="#"><i class="fa fa-binoculars"></i> <span>Monitoring</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li><a href="/newnetwork">Add a Network</a></li>
+            <li><a href="/addsshcredentials">Set SSH Credentials</a></li>
           </ul>
         </li>
               <li class="treeview">

@@ -72,6 +72,8 @@ Route::post('/marketinglist', 'marketingcontroller@getlist');
 //Monitoring Routes
 Route::get('/newnetwork', 'monitoringcontroller@networkcreate');
 Route::post('/newnetwork', 'monitoringcontroller@networkstore');
+Route::get('/addsshcredentials', 'monitoringcontroller@setssh');
+Route::post('/addsshcredentials', 'monitoringcontroller@storessh');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');

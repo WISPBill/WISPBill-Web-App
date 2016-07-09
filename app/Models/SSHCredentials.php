@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Crypt;
+
 use Illuminate\Database\Eloquent\Model;
 
 class SSHCredentials extends Model
@@ -20,4 +22,25 @@ class SSHCredentials extends Model
     {
         return $this->belongsTo('App\Models\DeviceIPs','device_IP_id','id');
     }
+    
+       public function setusernameAttribute($value)
+    {
+        $this->attributes['username'] = Crypt::encrypt($value);
+    }
+    
+    public function setpasswordAttribute($value)
+    {
+        $this->attributes['password'] = Crypt::encrypt($value);
+    }
+    
+    public function getusernameAttribute($value)
+    {
+        return Crypt::decrypt($value);
+    }
+    
+    public function getpasswordAttribute($value)
+    {
+        return Crypt::decrypt($value);
+    }
+
 }
