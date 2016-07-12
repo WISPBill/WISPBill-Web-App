@@ -13,6 +13,11 @@ class Devices extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type','model','manufacturer','mac','serial_number'
+        'name', 'type','model','manufacturer','mac','serial_number','os','version','revision'
     ];
+    
+    public function ports()
+    {
+        return $this->hasMany('App\Models\DevicePorts','portid_id','id');
+    }
 }

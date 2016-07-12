@@ -93,6 +93,75 @@ class Helper
             abort(500, 'Failed to find Geocoding Service in DB');
         }
     }
+    
+    public static function portlist($data)
+    {
+        $data = explode("\n", $data);
+        
+        $offset = 0;
+        
+        $ports = array();
+        
+        foreach($data as $key=>$row){
+                if(empty($row)){
+                        if($offset == 0){
+                        $lenght = $key - $offset;        
+                        $port = array_slice($data,$offset,$lenght);
+                
+                        $offset = $key;
+                
+                        array_push($ports, $port);
+                        
+                        }else{
+                                
+                        $offset ++;
+                        $lenght = $key - $offset;        
+                        $port = array_slice($data,$offset,$lenght);
+                
+                        $offset = $key;
+                                if(empty($port)){
+                                
+                                }else{
+                                array_push($ports, $port);
+                                }
+                        }
+                }
+        }
+        $results = array();
+        
+        foreach($ports as $port){
+                
+                if(str_contains($port[0], 'Loopback') or str_contains($port[0], 'imq')){
+                        //Ignores LoopBack and imq ports
+                }else{
+                        $name = NULL;
+                        $mac = NULL;
+                        $ip = NULL;
+                        
+                        if(preg_match('/(\S{1,})\s{1,}.{1,50}((?:[a-zA-Z0-9]{2}[:-]){5}[a-zA-Z0-9]{2})/', $port[0],$matchs)){
+                        
+                        $name = $matchs[1];
+                        $mac = $matchs[2];
+                        }
+                        
+                        if(preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $port[1],$matchs)){
+                                $ip = $matchs[0];
+                        }
+                       
+                       $portdata  = array(
+                               "name" => $name,
+                               "mac" => $mac,
+                               "ip" => $ip,
+                               );
+                               
+                        array_push($results, $portdata);
+                
+                }
+        }
+        
+        return($results);
+    }
+    
 }
 
 ?>

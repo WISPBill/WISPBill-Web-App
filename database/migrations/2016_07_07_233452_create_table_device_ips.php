@@ -17,6 +17,8 @@ class CreateTableDeviceIps extends Migration
             $table->ipAddress('address');
             $table->integer('network_id')->unsigned();
             $table->foreign('network_id')->references('id')->on('networks')->onDelete('cascade');
+            $table->integer('port_id')->unsigned()->nullable();
+            $table->foreign('port_id')->references('id')->on('device_ports')->onDelete('cascade');
             $table->timestamps();
         });
     }

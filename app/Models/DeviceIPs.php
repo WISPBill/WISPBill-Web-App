@@ -13,7 +13,7 @@ class DeviceIPs extends Model
      * @var array
      */
     protected $fillable = [
-        'address', 'network_id'
+        'address', 'network_id','port_id'
     ];
 
        public function network()
@@ -24,6 +24,11 @@ class DeviceIPs extends Model
      public function SSH_Credentials()
     {
         return $this->hasOne('App\Models\SSHCredentials','device_IP_id','id');
+    }
+    
+      public function port()
+    {
+        return $this->belongsTo('App\Models\DevicePorts','port_id','id');
     }
     
 }
