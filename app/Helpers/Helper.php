@@ -96,37 +96,9 @@ class Helper
     
     public static function portlist($data)
     {
-        $data = explode("\n", $data);
         
-        $offset = 0;
+        $ports = $this->buildportarray($data);
         
-        $ports = array();
-        
-        foreach($data as $key=>$row){
-                if(empty($row)){
-                        if($offset == 0){
-                        $lenght = $key - $offset;        
-                        $port = array_slice($data,$offset,$lenght);
-                
-                        $offset = $key;
-                
-                        array_push($ports, $port);
-                        
-                        }else{
-                                
-                        $offset ++;
-                        $lenght = $key - $offset;        
-                        $port = array_slice($data,$offset,$lenght);
-                
-                        $offset = $key;
-                                if(empty($port)){
-                                
-                                }else{
-                                array_push($ports, $port);
-                                }
-                        }
-                }
-        }
         $results = array();
         
         foreach($ports as $port){
@@ -160,6 +132,43 @@ class Helper
         }
         
         return($results);
+    }
+    
+    protected static function buildportarray($data)
+    {
+        $data = explode("\n", $data);
+        
+        $offset = 0;
+        
+        $ports = array();
+        
+        foreach($data as $key=>$row){
+                if(empty($row)){
+                        if($offset == 0){
+                        $lenght = $key - $offset;        
+                        $port = array_slice($data,$offset,$lenght);
+                
+                        $offset = $key;
+                
+                        array_push($ports, $port);
+                        
+                        }else{
+                                
+                        $offset ++;
+                        $lenght = $key - $offset;        
+                        $port = array_slice($data,$offset,$lenght);
+                
+                        $offset = $key;
+                                if(empty($port)){
+                                
+                                }else{
+                                array_push($ports, $port);
+                                }
+                        }
+                }
+        }
+        
+        return($ports);
     }
     
 }
