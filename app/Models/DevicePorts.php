@@ -18,11 +18,16 @@ class DevicePorts extends Model
     
     public function ips()
     {
-        return $this->hasMany('App\Models\DeviceIPs','portid_id','id');
+        return $this->hasMany('App\Models\DeviceIPs','port_id','id');
     }
     
     public function device()
     {
         return $this->belongsTo('App\Models\Devices','device_id','id');
+    }
+    
+    public function data()
+    {
+        return $this->hasMany('App\Models\PortData','port_id','id');
     }
 }

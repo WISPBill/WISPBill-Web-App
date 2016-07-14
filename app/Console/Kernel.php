@@ -7,6 +7,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use App\Models\Networks;
 
+use App\Models\Devices;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -16,6 +18,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\MonitoringNetworkPing::class,
+        Commands\getportstats::class,
         
     ];
 
@@ -40,6 +43,20 @@ class Kernel extends ConsoleKernel
             }
             
         })->everyFiveMinutes()->name('monitoring:pingnetwork');
+        
+        $schedule->call(function () {
+            
+            $devices = Devices::all();
+            
+            foreach($devices as $device){
+                
+                 $this->call('monitoring:portstats', [
+                'device' => $device->id
+                ]);
+
+            }
+            
+        })->everyFiveMinutes()->name('monitoring:portstats');
         
     }
     }

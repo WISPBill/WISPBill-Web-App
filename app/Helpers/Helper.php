@@ -171,6 +171,82 @@ class Helper
         return($ports);
     }
     
+     public static function buildstats($data)
+    {
+        
+        $ports = Helper::buildportarray($data);
+        
+        $results = array();
+        
+        foreach($ports as $port){
+            
+                
+                if(str_contains($port[0], 'Loopback') or str_contains($port[0], 'imq')){
+                        //Ignores LoopBack and imq ports
+                }else{
+                    
+                       $port = implode("\n", $port);
+             
+                       if(preg_match('/\QRX packets:\E(\d{1,})\s/', $port,$matchs)){
+                        
+                        $rx_packets = $matchs[1];
+                        
+                        }
+                        
+                        if(preg_match('/\QTX packets:\E(\d{1,})\s/', $port,$matchs)){
+                        
+                        $tx_packets = $matchs[1];
+                        
+                        }
+                        
+                        if(preg_match('/\QRX bytes:\E(\d{1,})\s/', $port,$matchs)){
+                        
+                        $rx_bytes = $matchs[1];
+                        
+                        }
+                        
+                        if(preg_match('/\QTX bytes:\E(\d{1,})\s/', $port,$matchs)){
+                        
+                        $tx_bytes = $matchs[1];
+                        
+                        }
+                        
+                        if(preg_match('/\QRX packets:\E\d{1,}\s\Qerrors:\E\d{1,}\s\Qdropped:\E(\d{1,})/', $port,$matchs)){
+                        
+                        $rx_drop = $matchs[1];
+                        
+                        }
+                        
+                        if(preg_match('/\QTX packets:\E\d{1,}\s\Qerrors:\E\d{1,}\s\Qdropped:\E(\d{1,})/', $port,$matchs)){
+                        
+                        $tx_drop = $matchs[1];
+                        
+                        }
+                        
+                        if(preg_match('/(\S{1,})\s/', $port,$matchs)){
+                        
+                        $name = $matchs[1];
+                        
+                        }
+                       
+                       $portdata  = array(
+                               "rx_packets" => $rx_packets,
+                               "tx_packets" => $tx_packets,
+                               "rx_bytes" => $rx_bytes,
+                               "tx_bytes" => $tx_bytes,
+                               "rx_dropped" => $rx_drop,
+                               "tx_dropped" => $tx_drop,
+                               "name" => $name,
+                               );
+                               
+                        array_push($results, $portdata);
+                
+                }
+        }
+        
+        return($results);
+    }
+    
 }
 
 ?>

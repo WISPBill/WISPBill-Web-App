@@ -14,6 +14,8 @@ use App\Models\Devices;
 
 use App\Models\DevicePorts;
 
+use App\Models\PortData;
+
 use phpseclib\Net\SSH2;
 
 use Log;
@@ -169,6 +171,24 @@ class DiscoverDevice
         }
         
         SSHCredentials::where('id', $SSHcredential['id'])->update(['device_id' => $device['id']]);
+        
+        $statdata = Helper::buildstats($portdata);
+         
+         foreach($statdata as $portdata){
+             
+            $port = DevicePorts::where('device_id', $device['id'])->where('name', $portdata['name'])->firstOrFail();
+             
+            PortData::create([
+            'port_id' => $port['id'],
+            'rx_bytes' => $portdata['rx_bytes'],
+            'tx_bytes' => $portdata['tx_bytes'],
+            'rx_packets' => $portdata['rx_packets'],
+            'tx_packets' => $portdata['tx_packets'],
+            'rx_dropped' => $portdata['rx_dropped'],
+            'tx_dropped' => $portdata['tx_dropped'],
+            ]);
+            
+         }
          
         }
     }
