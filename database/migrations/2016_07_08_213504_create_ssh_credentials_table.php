@@ -18,6 +18,8 @@ class CreateSshCredentialsTable extends Migration
             $table->string('password')->nullable();
             $table->integer('device_IP_id')->unsigned();
             $table->foreign('device_IP_id')->references('id')->on('device_IPs')->onDelete('cascade');
+            $table->integer('device_id')->unsigned()->nullable();
+            $table->foreign('device_id')->references('id')->on('Devices')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class CreateDevicesTable extends Migration
             $table->string('model');
             $table->string('manufacturer');
             $table->macAddress('mac');
-             $table->string('revision')->nullable();
+            $table->string('revision')->nullable();
             $table->string('os');
             $table->string('version');
             $table->timestamps();

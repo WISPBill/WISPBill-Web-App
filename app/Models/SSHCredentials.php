@@ -15,12 +15,17 @@ class SSHCredentials extends Model
      * @var array
      */
     protected $fillable = [
-        'username', 'password','device_IP_id'
+        'username', 'password','device_IP_id','device_id'
     ];
     
     public function IP()
     {
         return $this->belongsTo('App\Models\DeviceIPs','device_IP_id','id');
+    }
+    
+    public function device()
+    {
+        return $this->belongsTo('App\Models\Devices','device_id','id');
     }
     
        public function setusernameAttribute($value)

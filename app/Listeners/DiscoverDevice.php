@@ -165,7 +165,10 @@ class DiscoverDevice
             ]);
             
             DeviceIPs::where('address', $port['ip'])->update(['port_id' => $dbport['id']]);
+            
         }
+        
+        SSHCredentials::where('id', $SSHcredential['id'])->update(['device_id' => $device['id']]);
          
         }
     }

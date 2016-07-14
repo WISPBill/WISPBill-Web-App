@@ -20,4 +20,9 @@ class Devices extends Model
     {
         return $this->hasMany('App\Models\DevicePorts','portid_id','id');
     }
+    
+     public function SSH_Credentials()
+    {
+        return $this->hasOne('App\Models\SSHCredentials','device_id','id');
+    }
 }

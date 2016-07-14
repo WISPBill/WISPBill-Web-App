@@ -97,7 +97,7 @@ class Helper
     public static function portlist($data)
     {
         
-        $ports = $this->buildportarray($data);
+        $ports = Helper::buildportarray($data);
         
         $results = array();
         
