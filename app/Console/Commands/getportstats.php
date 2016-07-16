@@ -10,6 +10,8 @@ use App\Models\DevicePorts;
 
 use App\Models\PortData;
 
+use App\Models\DeviceIPs;
+
 use phpseclib\Net\SSH2;
 
 use Log;
@@ -62,6 +64,20 @@ class getportstats extends Command
             }
          
          $portdata = $ssh->exec(" /sbin/ifconfig");
+         
+         $ports = Helper::portlist($portdata);
+         
+         foreach($ports as $port){
+            
+            $dbport = DevicePorts::firstOrCreate([
+            'name' => $port['name'],
+            'mac' => $port['mac'],
+            'device_id' => $deviceid,
+            ]);
+            
+            DeviceIPs::where('address', $port['ip'])->update(['port_id' => $dbport['id']]);
+            
+        }
          
          $statdata = Helper::buildstats($portdata);
          
