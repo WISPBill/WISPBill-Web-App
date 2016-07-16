@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\MonitoringNetworkPing::class,
         Commands\getportstats::class,
+        Commands\UpdateDeviceInfo::class,
         
     ];
 
@@ -57,6 +58,20 @@ class Kernel extends ConsoleKernel
             }
             
         })->everyFiveMinutes()->name('monitoring:portstats');
+        
+        $schedule->call(function () {
+            
+            $devices = Devices::all();
+            
+            foreach($devices as $device){
+                
+                 $this->call('monitoring:updatedeviceinfo', [
+                'device' => $device->id
+                ]);
+
+            }
+            
+        })->daily()->name('monitoring:updatedeviceinfo');
         
     }
     }
