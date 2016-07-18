@@ -30,4 +30,9 @@ class DevicePorts extends Model
     {
         return $this->hasMany('App\Models\PortData','port_id','id');
     }
+    
+    public function DHCP_Servers()
+    {
+        return $this->hasMany('App\Models\DHCPServers','port_id','id');
+    }
 }

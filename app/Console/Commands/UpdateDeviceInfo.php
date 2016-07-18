@@ -45,7 +45,7 @@ class UpdateDeviceInfo extends Command
     {
         $deviceid = $this->argument('device');
         
-        $device = Devices::where('id', $deviceid)->with('SSH_Credentials.IP')->firstOrFail();;
+        $device = Devices::where('id', $deviceid)->with('SSH_Credentials.IP')->firstOrFail();
          
          $ssh = new SSH2($device->SSH_Credentials->IP->address);
             if (!$ssh->login($device->SSH_Credentials->username,$device->SSH_Credentials->password)) {

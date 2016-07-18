@@ -18,11 +18,17 @@ class Devices extends Model
     
     public function ports()
     {
-        return $this->hasMany('App\Models\DevicePorts','portid_id','id');
+        return $this->hasMany('App\Models\DevicePorts','device_id','id');
     }
     
      public function SSH_Credentials()
     {
         return $this->hasOne('App\Models\SSHCredentials','device_id','id');
     }
+    
+    public function DHCP_Servers()
+    {
+        return $this->hasMany('App\Models\DHCPServers','device_id','id');
+    }
+    
 }

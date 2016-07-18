@@ -247,6 +247,174 @@ class Helper
         return($results);
     }
     
+    public static function dhcpserverinfo($data)
+    {
+       
+       if(preg_match('/\Qservice {\E\n\s{4}\Qdhcp-server {\E(.{1,})\Qdns {\E/s', $data,$dhcp)){
+                    
+                    $dhcp = $dhcp[1];
+
+                }else{
+                   
+                   return false;
+                   
+                }
+                
+         $data = explode("\n", $dhcp);
+         
+         $data = array_slice($data, 3);
+         
+         $masterlength = count($data) - 2;
+         
+         $data = array_slice($data,0,$masterlength);
+         
+         $data = array_reverse($data);
+        
+        $servers = array();
+        
+        $offset = 0;
+        $lastlength = 0;
+        
+        foreach($data as $key=>$row){
+                
+                if(str_contains($row,'shared-network-name')){
+                           
+                           $length = $key + 1 - $lastlength;
+
+                           $server = array_slice($data, $offset,$length);
+                           
+                           $offset = $key + 1;
+                           
+                           $lastlength = $length;
+                           
+                           $server = array_reverse($server);
+                           
+                           array_push($servers, $server);
+                        
+                }else{
+                        
+                }
+                
+        }
+        
+        $results = array();
+        
+        foreach($servers as $server){
+                
+                $name = NULL;
+                $subnet = NULL;
+                $router = NULL;
+                $dns1 = NULL;
+                $dns2 = NULL;
+                $lease = NULL;
+                $start = NULL;
+                $stop = NULL;
+                
+                foreach($server as $row){
+                        
+                        if(str_contains($row,'shared-network-name')){
+                                
+                                if(preg_match('/\Qshared-network-name\E\s(.{1,})\s\{/', $row,$match)){
+                    
+                                    $name = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'subnet')){
+                                
+                                if(preg_match('/\Qsubnet\E\s(.{1,})\s\{/', $row,$match)){
+                    
+                                    $subnet = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'default-router')){
+                                
+                                if(preg_match('/\Qdefault-router\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/', $row,$match)){
+                    
+                                    $router = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'dns-server')){
+                                
+                                if(preg_match('/\Qdns-server\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/', $row,$match)){
+                                
+                                    if(empty($dns1)){
+                                            
+                                        $dns1 = $match[1];
+
+                                    }elseif(empty($dns2)){
+                                            
+                                        $dns2 = $match[1];
+                                            
+                                    }else{
+                                           
+                                    }
+                                    
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'lease')){
+                                
+                                if(preg_match('/\Qlease\E\s(\d{1,})/', $row,$match)){
+                    
+                                    $lease = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'start')){
+                                
+                                if(preg_match('/\Qstart\E\s(.{1,})\s\{/', $row,$match)){
+                    
+                                    $start = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'stop')){
+                                
+                                if(preg_match('/\Qstop\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/', $row,$match)){
+                    
+                                    $stop = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }else{
+                                //Nothing
+                        }
+                }
+                
+                $serversettings = array(
+                        "name" => $name, 
+                        "subnet" => $subnet, 
+                        "router" => $router, 
+                        "dns1" => $dns1, 
+                        "dns2" => $dns2, 
+                        "lease" => $lease, 
+                        "start" => $start, 
+                        "stop" => $stop, 
+                        );
+                        
+                array_push($results, $serversettings);
+        }
+        
+        return($results);
+       
+    }
+    
 }
 
 ?>

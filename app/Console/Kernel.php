@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\MonitoringNetworkPing::class,
         Commands\getportstats::class,
         Commands\UpdateDeviceInfo::class,
-        
+        Commands\GetEdgeOSConfigDetails::class,
     ];
 
     /**
@@ -72,6 +72,20 @@ class Kernel extends ConsoleKernel
             }
             
         })->daily()->name('monitoring:updatedeviceinfo');
+        
+        $schedule->call(function () {
+            
+            $devices = Devices::where('os', 'EdgeOS')->get();
+            
+            foreach($devices as $device){
+                
+                 $this->call('monitoring:edgeosconfig', [
+                'device' => $device->id
+                ]);
+
+            }
+            
+        })->dailyAt('24:05')->name('monitoring:edgeosconfig');
         
     }
     }
