@@ -250,51 +250,10 @@ class Helper
     public static function dhcpserverinfo($data)
     {
        
-       if(preg_match('/\Qservice {\E\n\s{4}\Qdhcp-server {\E(.{1,})\Qdns {\E/s', $data,$dhcp)){
-                    
-                    $dhcp = $dhcp[1];
-
-                }else{
-                   
-                   return false;
-                   
-                }
-                
-         $data = explode("\n", $dhcp);
-         
-         $data = array_slice($data, 3);
-         
-         $masterlength = count($data) - 2;
-         
-         $data = array_slice($data,0,$masterlength);
-         
-         $data = array_reverse($data);
+        $servers = Helper::getdhcpserver($data);
         
-        $servers = array();
-        
-        $offset = 0;
-        $lastlength = 0;
-        
-        foreach($data as $key=>$row){
-                
-                if(str_contains($row,'shared-network-name')){
-                           
-                           $length = $key + 1 - $lastlength;
-
-                           $server = array_slice($data, $offset,$length);
-                           
-                           $offset = $key + 1;
-                           
-                           $lastlength = $length;
-                           
-                           $server = array_reverse($server);
-                           
-                           array_push($servers, $server);
-                        
-                }else{
-                        
-                }
-                
+        if($servers == false){
+            return false;
         }
         
         $results = array();
@@ -413,6 +372,161 @@ class Helper
         
         return($results);
        
+    }
+    
+     protected static function getdhcpserver($data)
+    {
+        if(preg_match('/\Qservice {\E\n\s{4}\Qdhcp-server {\E(.{1,})\Qdns {\E/s', $data,$dhcp)){
+                    
+                    $dhcp = $dhcp[1];
+
+                }else{
+                   
+                   return false;
+                   
+                }
+                
+         $data = explode("\n", $dhcp);
+         
+         $data = array_slice($data, 3);
+         
+         $masterlength = count($data) - 2;
+         
+         $data = array_slice($data,0,$masterlength);
+         
+         $data = array_reverse($data);
+        
+        $servers = array();
+        
+        $offset = 0;
+        $lastlength = 0;
+        
+        foreach($data as $key=>$row){
+                
+                if(str_contains($row,'shared-network-name')){
+                           
+                           $length = $key + 1 - $lastlength;
+
+                           $server = array_slice($data, $offset,$length);
+                           
+                           $offset = $key + 1;
+                           
+                           $lastlength = $length;
+                           
+                           $server = array_reverse($server);
+                           
+                           array_push($servers, $server);
+                        
+                }else{
+                        
+                }
+                
+        }
+        
+        return($servers);
+    }
+    
+    public static function getstaticmap($data)
+    {
+        
+        $servers = Helper::getdhcpserver($data);
+        
+        if($servers == false){
+            return false;
+        }
+        
+        $results = array();
+        
+        $statics = array();
+        
+        foreach($servers as $server){
+                
+                foreach($server as $key=>$row){
+                
+                        if(str_contains($row,'static-mapping')){
+                                   
+                                   $offset = $key;
+
+                                   $static = array_slice($server, $offset,3);
+                                   
+                                   $static[4] = $server[0];
+                                   
+                                   array_push($statics, $static);
+                        
+                        }else{
+                        
+                        }
+                        
+                        
+                }
+        }
+        
+           foreach($statics as $static){
+                   
+                   $name = NULL;
+                   $ip = NULL;
+                   $mac = NULL;
+                   $mapname = NULL;
+                   
+                   foreach($static as $row){
+                  
+                   if(str_contains($row,'shared-network-name')){
+                                
+                                if(preg_match('/\Qshared-network-name\E\s(.{1,})\s\{/', $row,$match)){
+                    
+                                    $name = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'ip-address')){
+                                
+                                if(preg_match('/\Qip-address\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/', $row,$match)){
+                    
+                                    $ip = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'mac-address')){
+                                
+                                if(preg_match('/((?:[a-zA-Z0-9]{2}[:-]){5}[a-zA-Z0-9]{2})/', $row,$match)){
+                    
+                                    $mac = $match[1];
+
+                                }else{
+                   
+                                }
+                                
+                        }elseif(str_contains($row,'static-mapping')){
+                                
+                                if(preg_match('/\Qstatic-mapping\E\s(.{1,})\s\{/', $row,$match)){
+                                
+                                    $mapname = $match[1];
+                                    
+                                }else{
+                   
+                                }
+                                
+                        }else{
+                                
+                        }
+                        
+                   }
+                   
+                $staticsettings = array(
+                        "name" => $name, 
+                        "ip" => $ip, 
+                        "mac" => $mac, 
+                        "mapname" => $mapname, 
+                        );
+                        
+                array_push($results, $staticsettings);
+           }
+           
+           return($results);
     }
     
 }

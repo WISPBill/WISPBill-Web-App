@@ -25,4 +25,9 @@ class DHCPServers extends Model
     {
         return $this->belongsTo('App\Models\DevicePorts','port_id','id');
     }
+    
+    public function ips()
+    {
+        return $this->hasMany('App\Models\IPLeases','server_id','id');
+    }
 }

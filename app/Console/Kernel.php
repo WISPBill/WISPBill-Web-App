@@ -85,7 +85,7 @@ class Kernel extends ConsoleKernel
 
             }
             
-        })->dailyAt('24:05')->name('monitoring:edgeosconfig');
+        })->hourly()->name('monitoring:edgeosconfig');
         
     }
     }

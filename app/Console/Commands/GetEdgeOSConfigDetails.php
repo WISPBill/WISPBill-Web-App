@@ -8,6 +8,8 @@ use App\Models\Devices;
 
 use App\Models\DHCPServers;
 
+use App\Models\IPLeases;
+
 use phpseclib\Net\SSH2;
 
 use Log;
@@ -79,6 +81,26 @@ class GetEdgeOSConfigDetails extends Command
                     'dns1' => $server['dns1'],
                     'dns2' => $server['dns2'],
                     'device_id' => $deviceid,
+                    ]);
+            }
+        }
+        
+        $statics = Helper::getstaticmap($data);
+        
+        if($statics == false){
+            //Nothing 
+        }else{
+            
+            foreach($statics as $static){
+                
+                $server = DHCPServers::where('device_id', $deviceid)->where('name',$static['name'])->firstOrFail();
+                
+                IPLeases::firstOrCreate([
+                    'name' => $static['mapname'],
+                    'mac' => $static['mac'],
+                    'ip' => $static['ip'],
+                    'static' => true,
+                    'server_id' => $server['id'],
                     ]);
             }
         }
