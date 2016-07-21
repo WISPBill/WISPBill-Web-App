@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         Commands\UpdateDeviceInfo::class,
         Commands\GetEdgeOSConfigDetails::class,
         Commands\GetDHCPLessees::class,
+        Commands\GetRadioData::class,
     ];
 
     /**
@@ -103,6 +104,20 @@ class Kernel extends ConsoleKernel
             }
             
         })->everyFiveMinutes()->name('monitoring:DHCPleaseget');
+        
+        $schedule->call(function () {
+            
+            $devices = Devices::where('os', 'AirOS')->get();
+            
+            foreach($devices as $device){
+                
+                 $this->call('monitoring:radiodata', [
+                'device' => $device->id
+                ]);
+
+            }
+            
+        })->everyFiveMinutes()->name('monitoring:radiodata');
         
         // DB Clean UP
         

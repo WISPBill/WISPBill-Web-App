@@ -583,6 +583,45 @@ class Helper
          return($results);
     }
     
+    public static function getAirOSstat($data, $data2) 
+    {
+	
+                $data = str_replace(array("\r", "\n", "\t"), "", $data);
+                $data = str_replace(" ", "|", $data);
+
+                /* Capture Frequency */
+                preg_match("/\Frequency:(.*?)\|/", $data, $matches);
+                $airOS["frequency"] = str_replace("\"", "", $matches[1]);
+
+                /* Capture TX Power */
+                preg_match("/\Tx-Power=(.*?)\|/", $data, $matches);
+                $airOS["txPower"] = str_replace("\"", "", $matches[1]);
+
+                /* Capture Signals */
+                preg_match_all("/level=(.*?)\|/", $data, $matches);
+                $airOS["signal"] = str_replace("\"", "", $matches[1][0]);
+                $airOS["noise"] = str_replace("\"", "", $matches[1][1]);
+	
+	
+      
+               $data2 = str_replace(array("\r", "\n", "\t"), "", $data2);
+               $data2 = str_replace(" ", "|", $data2);
+	
+            $start = strpos($data2, 'ccq=');
+            $start = $start +4;
+      	$end = strpos($data2, 'uptime=');
+      	$length = $end - $start;
+      	$airOS["ccq"] = substr("$data2", "$start","$length" );
+	
+      	$start = strpos($data2, 'wlanTxLatency=');
+      	$end = strpos($data2, 'wlanPolling=');
+            $start = $start +14;
+      	$length = $end - $start;
+      	$airOS["latency"] = substr("$data2", "$start","$length" );
+	 
+          return($airOS);
+	}
+    
 }
 
 ?>

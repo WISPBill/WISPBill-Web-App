@@ -31,4 +31,9 @@ class Devices extends Model
         return $this->hasMany('App\Models\DHCPServers','device_id','id');
     }
     
+    public function radiodata()
+    {
+        return $this->hasMany('App\Models\RadioData','device_id','id');
+    }
+    
 }
