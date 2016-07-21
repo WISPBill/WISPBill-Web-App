@@ -529,6 +529,60 @@ class Helper
            return($results);
     }
     
+    public static function getdhcpleases($data)
+    {
+        
+        $leases = explode("\n", $data);
+         
+         unset($leases[0]);
+         
+         unset($leases[1]);
+         
+         $leases = array_values($leases);
+         
+         $results = array();
+         
+         foreach($leases as $lease){
+                 
+                 $iplease = array(
+                         "ip" => NULL,
+                         "mac" => NULL,
+                         "expires" => NULL,
+                         "name" => NULL,
+                         );
+                 
+                 $lease = $str = preg_replace('/\s{2,}/', ' ', $lease);
+                 
+                 if(preg_match('/(\S{1,})\s(\S{1,})\s(\S{1,}\s\S{1,})\s\S{1,}\s(\S{1,})/', $lease,$match)){
+                                
+                                    $iplease['ip'] = $match[1];
+                                    $iplease['mac'] = $match[2];
+                                    $iplease['expires'] = $match[3];
+                                    $iplease['name'] = $match[4];
+                                    
+                                    array_push($results, $iplease);
+                                    
+                                }else{
+                                        
+                                        if(preg_match('/(\S{1,})\s(\S{1,})\s(\S{1,}\s\S{1,})\s\S{1,}\s/', $lease,$match)){
+                                
+                                            $iplease['ip'] = $match[1];
+                                            $iplease['mac'] = $match[2];
+                                            $iplease['expires'] = $match[3];
+                                            
+                                            array_push($results, $iplease);
+                                    
+                                       }else{
+                           
+                                        }
+                   
+                                }
+     
+         }
+         
+         return($results);
+    }
+    
 }
 
 ?>

@@ -9,6 +9,8 @@ use App\Models\Networks;
 
 use App\Models\Devices;
 
+use App\Models\IPLeases;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -21,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\getportstats::class,
         Commands\UpdateDeviceInfo::class,
         Commands\GetEdgeOSConfigDetails::class,
+        Commands\GetDHCPLessees::class,
     ];
 
     /**
@@ -86,6 +89,31 @@ class Kernel extends ConsoleKernel
             }
             
         })->hourly()->name('monitoring:edgeosconfig');
+        
+         $schedule->call(function () {
+            
+            $devices = Devices::where('os', 'EdgeOS')->get();
+            
+            foreach($devices as $device){
+                
+                 $this->call('monitoring:DHCPleaseget', [
+                'device' => $device->id
+                ]);
+
+            }
+            
+        })->everyFiveMinutes()->name('monitoring:DHCPleaseget');
+        
+        // DB Clean UP
+        
+        $schedule->call(function () {
+            
+            $date = new DateTime;
+            $formatted_date = $date->format('Y-m-d H:i:s');
+            
+            IPLeases::where('expires', '<', $formatted_date)->whereNotNull('expires')->delete();
+            
+        })->daily();
         
     }
     }
