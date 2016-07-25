@@ -82,7 +82,7 @@ class DiscoverDevice
                 $os = 'AirOS';
                 if(preg_match('/\$board_name="(.{0,30})\";/', $data,$model)){
                     $model = $model[1];
-                    $type = NULL;
+                    $type = 'Radio';
                     $sn = NULL;
                 }else{
                     // Model not found
