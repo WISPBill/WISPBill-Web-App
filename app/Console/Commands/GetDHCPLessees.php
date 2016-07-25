@@ -82,6 +82,12 @@ class GetDHCPLessees extends Command
                 $dblease->save();
             }
             
+            $leased = IPLeases::where('server_id', $server['id'])->count();
+            
+            $server->leased = $leased;
+            
+            $server->save();
+            
         }
     }
 }
