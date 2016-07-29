@@ -11,6 +11,8 @@ use App\Models\Devices;
 
 use App\Models\IPLeases;
 
+use DateTime;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -128,7 +130,7 @@ class Kernel extends ConsoleKernel
             
             IPLeases::where('expires', '<', $formatted_date)->whereNotNull('expires')->delete();
             
-        })->daily();
+        })->hourly()->name('Datebase Clean Up');
         
     }
     }

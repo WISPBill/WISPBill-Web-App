@@ -6,11 +6,17 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Response;
+
 use App\Models\Networks;
 
 use App\Models\SSHCredentials;
 
 use App\Models\DeviceIPs;
+
+use App\Models\PortData;
+
+use App\Models\RadioData;
 
 use Event;
 
@@ -73,5 +79,86 @@ class monitoringcontroller extends Controller
         event(new NewSSH($SSHCredentials));
         
         return redirect("/");
+    }
+    
+     public function displayportdata($id,$timeframe)
+    {
+      
+      $data = PortData::where('port_id', $id)->where('created_at','>=', $timeframe)->get();
+      
+      $output = array();
+      
+      $outputfile = '';
+      
+      $outputheaders=array('Datetime','Rx Rate','Tx Rate');
+      
+      array_push($output, $outputheaders);
+      
+      foreach($data as $row){
+          
+          $outputdata = array($row['created_at'], $row['rx_rate']*8/1000000, $row['tx_rate']*8/1000000);
+          
+          array_push($output, $outputdata);
+          
+      }
+      
+      foreach($output as $outputrow){
+          
+          $outputfile .= implode(',', $outputrow);
+          $outputfile.= "\n";
+          
+      }
+      
+          $headers = array(
+      'Content-Type' => 'text/csv',
+      'Content-Disposition' => 'attachment; filename="Data.csv"',
+        );
+
+          return Response::make(rtrim($outputfile, "\n"), 200, $headers);
+        
+    }
+    
+    public function displayradiodata($id,$timeframe,$type)
+    {
+      
+      $data = RadioData::where('device_id', $id)->where('created_at','>=', $timeframe)->get();
+      
+      $output = array();
+      
+      $outputfile = '';
+      
+      $outputheaders=array('Datetime',$type);
+      
+      array_push($output, $outputheaders);
+      
+      foreach($data as $row){
+          
+          if($type != 'ccq'){
+          
+          $outputdata = array($row['created_at'], $row["$type"]);
+          
+          }else{
+              
+              $outputdata = array($row['created_at'], $row["$type"]/10);
+              
+          }
+          array_push($output, $outputdata);
+          
+      }
+      
+      foreach($output as $outputrow){
+          
+          $outputfile .= implode(',', $outputrow);
+          $outputfile.= "\n";
+          
+      }
+      
+          $headers = array(
+      'Content-Type' => 'text/csv',
+      'Content-Disposition' => 'attachment; filename="Data.csv"',
+        );
+
+          return Response::make(rtrim($outputfile, "\n"), 200, $headers);
+        
     }
 }

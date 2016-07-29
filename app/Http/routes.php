@@ -74,6 +74,11 @@ Route::get('/newnetwork', 'monitoringcontroller@networkcreate');
 Route::post('/newnetwork', 'monitoringcontroller@networkstore');
 Route::get('/addsshcredentials', 'monitoringcontroller@setssh');
 Route::post('/addsshcredentials', 'monitoringcontroller@storessh');
+Route::get('/portdata/{id}/{timeframe}/data.csv', 'monitoringcontroller@displayportdata');
+Route::get('/radiodata/{id}/{timeframe}/{type}/data.csv', 'monitoringcontroller@displayradiodata');
+//Device Routes
+Route::get('/viewdevices', 'devicecontroller@index');
+Route::get('/viewdevices/{id}', 'devicecontroller@show');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');
