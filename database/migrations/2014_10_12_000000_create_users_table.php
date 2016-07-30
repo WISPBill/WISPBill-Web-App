@@ -21,8 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('img');
             $table->string('role');
             $table->string('phone');
-            $table->integer('customer_info_id')->unsigned()->nullable();
-            $table->foreign('customer_info_id')->references('id')->on('customer_info')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
