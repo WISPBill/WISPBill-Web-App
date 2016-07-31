@@ -37,5 +37,10 @@ class Default_Settings_Seeder extends Seeder
             'setting_name' => 'SSH Port',
             'setting_value' => '22',
         ]);
+        
+        Settings::create([
+            'setting_name' => 'Radius Billing',
+            'setting_value' => false,
+        ]);
     }
 }

@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Crypt;
+
 class settingscontroller extends Controller
 {
     public function __construct()
@@ -39,8 +41,11 @@ class settingscontroller extends Controller
         
         $burst = Settings::where('setting_name', 'Rate Limit Bursting Plans')->first();
         $burst = $burst['setting_value'];
-
-        return view('admin.main',compact('key','verifypin','speed','data','burst'));
+        
+        $radius = Settings::where('setting_name', 'Radius Billing')->first();
+        $radius = $radius['setting_value'];
+        
+        return view('admin.main',compact('key','verifypin','speed','data','burst','radius'));
     }
 
      public function setstripekey(Request $request)
@@ -261,6 +266,65 @@ class settingscontroller extends Controller
             'setting_name' => 'SSH Port',
             'setting_value' => $request['ssh'],
         ]);
+        return redirect("/");
+    }
+    
+    public function setradius(Request $request)
+    {
+
+        // Clear out DB of old settings
+        Settings::where('setting_name', 'Radius Billing')->delete();
+        Settings::where('setting_name', 'Radius IP')->delete();
+        Settings::where('setting_name', 'Radius Port')->delete();
+        Settings::where('setting_name', 'Radius Username')->delete();
+        Settings::where('setting_name', 'Radius Password')->delete();
+
+        if(isset($request['radius'])){
+            $value = true;
+        }elseif(!isset($request['radius'])){
+            $value = false;
+        }else{
+            abort(500, 'Unexpected Issue Please Contact Administrator');
+        }
+        
+        if($value == true){
+            
+            $this->validate($request, [
+            'port' => 'required|numeric',
+            'IP' => 'required|ip',
+            'username' => 'required',
+            'password' => 'required|confirmed',
+            ]);
+            
+              Settings::create([
+            'setting_name' => 'Radius Billing',
+            'setting_value' => $value,
+        ]);
+        
+         Settings::create([
+            'setting_name' => 'Radius IP',
+            'setting_value' => $request['IP'],
+        ]);
+        
+         Settings::create([
+            'setting_name' => 'Radius Port',
+            'setting_value' => $request['port'],
+        ]);
+        
+         Settings::create([
+            'setting_name' => 'Radius Password',
+            'setting_value' => Crypt::encrypt($request['password']),
+        ]);
+        
+         Settings::create([
+            'setting_name' => 'Radius Username',
+            'setting_value' => $request['username'],
+        ]);
+            
+        }else{
+            abort(500, 'Unexpected Issue Please Contact Administrator');
+        }
+        
         return redirect("/");
     }
 

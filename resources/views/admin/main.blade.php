@@ -310,7 +310,7 @@
 		  
 		           <div class="box box-success">
             <div class="box-header with-border">
-			<h4>Geocoder</h4>
+			<h4>SSH Port</h4>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -341,4 +341,175 @@
               </form>
 			</div>
 		  </div>
+		  
+		   <div class="box box-warning">
+            <div class="box-header with-border">
+			<h4>Radius Settings</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+         
+              <form role="form" action="/setradius"method="post">
+                <!-- text input -->
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+		
+                <div class="checkbox">
+          <h4>
+          <input type="checkbox" name="radius" id="radius" onchange ="checkradius(this)"
+          @if ($radius == true)
+          checked
+          @elseif ($radius == false)
+          
+          @else
+          
+          @endif 
+          data-toggle="toggle" data-size="large">
+            Radius Billing
+          </h4>
+            </div>
+      <span id="radiusfeilds" 
+      
+      @if($radius == true)
+      
+      @else
+      
+      style="display:none;"
+      
+      @endif
+      
+      >
+        <br></br>
+        <div class="form-group">
+<label>Database IP </label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-laptop"></i>
+                  </div>
+                  <input name="IP" type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask required>
+                </div>
+                <!-- /.input group -->
+              </div>
+        
+        
+         <div class="form-group">
+              <label>Datebase Port</label>
+                  
+                  <input type="number" min="1" class="form-control" name="port" value="3306">
+                </div>
+                
+                <div class="form-group">
+              <label>Database Username</label>
+                  
+                  <input type="text" class="form-control" name="username" placeholder="Enter Username for Database">
+                </div>
+        
+        <div class="form-group has-feedback">
+	<label>Database Password</label>
+                    <input type="password" class="form-control" placeholder="Password" name="password"/>
+                    
+                </div>
+                <div class="form-group has-feedback">
+                		<label>Confirm Database Password</label>
+                    <input type="password" class="form-control" placeholder="Retype password" name="password_confirmation"/>
+                    
+                </div>
+      </span>
+      
+           </div>
+
+				<div class="box-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+     
+              </form>
+			</div>
+		  </div>
 @endsection
+@section('page-scripts')
+
+  <script>
+
+        
+    function checkradius(checkbox)
+    {
+        if (checkbox.checked == true)
+        {
+          
+          $("#radiusfeilds").show();
+
+        }else{
+          
+          $("#radiusfeilds").hide();
+          
+        }
+    }
+  </script>
+<script src="{{ asset('/plugins/select2/select2.full.min.js')}}"></script>
+<!-- InputMask -->
+<script src="{{ asset('/plugins/input-mask/jquery.inputmask.js')}}"></script>
+<script src="{{ asset('/plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+<script src="{{ asset('/plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $(".select2").select2();
+
+    //Datemask dd/mm/yyyy
+    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    //Datemask2 mm/dd/yyyy
+    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+    //Money Euro
+    $("[data-mask]").inputmask();
+
+    //Date range picker
+    $('#reservation').daterangepicker();
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+        {
+          ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate: moment()
+        },
+        function (start, end) {
+          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+    );
+
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass: 'iradio_minimal-blue'
+    });
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass: 'iradio_minimal-red'
+    });
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'iradio_flat-green'
+    });
+
+    //Colorpicker
+    $(".my-colorpicker1").colorpicker();
+    //color picker with addon
+    $(".my-colorpicker2").colorpicker();
+
+    //Timepicker
+    $(".timepicker").timepicker({
+      showInputs: false
+    });
+  });
+</script>
+@endsection 
