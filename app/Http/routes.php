@@ -80,6 +80,8 @@ Route::get('/radiodata/{id}/{timeframe}/{type}/data.csv', 'monitoringcontroller@
 //Device Routes
 Route::get('/viewdevices', 'devicecontroller@index');
 Route::get('/viewdevices/{id}', 'devicecontroller@show');
+Route::get('/newnas', 'devicecontroller@radiusnewnas');
+Route::post('/newnas', 'devicecontroller@storeradiusnewnas');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');

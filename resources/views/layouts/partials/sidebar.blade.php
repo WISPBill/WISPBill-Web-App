@@ -45,6 +45,11 @@
         <li class="treeview">
           <a href="#"><i class="fa fa-plug"></i> <span>Device Management</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
+               <li class="treeview">
+          <a href="#"><i class="fa fa-tasks"></i> <span>Radius Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="/newnas">Add a NAS</a></li>
+          </ul></li>
             <li><a href="/viewdevices">View Device's</a></li>
             
           </ul>

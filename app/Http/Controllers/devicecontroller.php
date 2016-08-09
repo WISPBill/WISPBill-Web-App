@@ -6,13 +6,19 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Helpers\Radius;
+
 use App\Models\Devices;
+
+use App\Models\Settings;
 
 use App\Models\DevicesPorts;
 
 use App\Models\RadioData;
 
 use DateTime;
+
+use Crypt;
 
 class devicecontroller extends Controller
 {
@@ -71,5 +77,98 @@ class devicecontroller extends Controller
         }
         
       return view('device.viewinfo', compact('device','image','webaddress','formatted_date','frequency','txpower'));
+    }
+    
+    public function radiusnewnas()
+    {
+        
+        $radius = Settings::where('setting_name', 'Radius Billing')->first();
+        $radius = $radius['setting_value'];
+        
+        if($radius == false){
+            
+            abort(500, 'Radius is not Configured');
+            
+        }elseif($radius == true){
+            
+            $devices = Devices::where('type', 'Router')->get();
+
+            return view('device.radius.newnas', compact('devices'));
+            
+        }else{
+            
+             abort(500, 'Error Retrieving Radius Settings from Database');
+            
+        }
+       
+    }
+    
+    public function storeradiusnewnas(Request $request)
+    {
+        
+        $radius = Settings::where('setting_name', 'Radius Billing')->first();
+        $radius = $radius['setting_value'];
+        
+        if($radius == false){
+            
+            abort(500, 'Radius is not Configured');
+            
+        }elseif($radius == true){
+            
+            $this->validate($request, [
+            'configuration' => 'required|in:manual,auto',
+            'name' => 'required_if:configuration,manual',
+            'type' => 'required_if:configuration,manual',
+            'IP Address' => 'required_if:configuration,manual|ip',
+            'secret' => 'required_if:configuration,manual|confirmed',
+            'id' => 'required_if:configuration,auto',
+            ]);
+            
+            if($request['configuration'] == 'auto'){
+                
+                $router = Devices::findorfail($request['id']);
+                
+                if(empty($router->name)){
+                    
+                    $name = $router->id;
+                    
+                }
+                
+                $type = 'other';
+                
+                $ip = $router->SSH_Credentials->IP->address;
+                
+                $secret = substr( md5(rand()), 0, 7);
+                
+                
+            }elseif($request['configuration'] == 'manual'){
+                
+                $name = $request['name'];
+                $type = $request['type'];
+                $ip = $request['IP Address'];
+                $secret = $request['secret'];
+                
+            }else{
+                
+                 abort(500, 'Unexpected Error');
+                
+            }
+            
+            if(Radius::newnas($name,$ip,$type,$secret)){
+                
+                return redirect("/");
+                
+            }else{
+                
+                 abort(500, 'Unexpected Error');
+                
+            }
+            
+        }else{
+            
+             abort(500, 'Error Retrieving Radius Settings from Database');
+            
+        }
+       
     }
 }
