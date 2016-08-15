@@ -119,7 +119,7 @@ class devicecontroller extends Controller
             'configuration' => 'required|in:manual,auto',
             'name' => 'required_if:configuration,manual',
             'type' => 'required_if:configuration,manual',
-            'IP Address' => 'required_if:configuration,manual|ip',
+            'IP' => 'required_if:configuration,manual|ip',
             'secret' => 'required_if:configuration,manual|confirmed',
             'id' => 'required_if:configuration,auto',
             ]);
@@ -145,7 +145,7 @@ class devicecontroller extends Controller
                 
                 $name = $request['name'];
                 $type = $request['type'];
-                $ip = $request['IP Address'];
+                $ip = $request['IP'];
                 $secret = $request['secret'];
                 
             }else{

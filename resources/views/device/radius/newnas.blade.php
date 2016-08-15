@@ -49,7 +49,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-laptop"></i>
                   </div>
-                  <input name="IP Address" type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask >
+                  <input name="IP" type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask >
                 </div>
                 <!-- /.input group -->
               </div>
