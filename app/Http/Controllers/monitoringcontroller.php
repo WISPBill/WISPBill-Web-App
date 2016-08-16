@@ -53,8 +53,8 @@ class monitoringcontroller extends Controller
     
     public function setssh()
     {
-        $total = SSHCredentials::whereNull('username')->with('IP')->count();
-        $servers = SSHCredentials::whereNull('username')->with('IP.network')->get();
+        $total = SSHCredentials::whereNull('username')->whereNull('device_id')->with('IP')->count();
+        $servers = SSHCredentials::whereNull('username')->whereNull('device_id')->with('IP.network')->get();
 
         return view('monitoring.ssh.new', compact('servers','total'));
     }

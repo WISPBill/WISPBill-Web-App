@@ -12,6 +12,8 @@ use App\Models\PortData;
 
 use App\Models\DeviceIPs;
 
+use App\Models\SSHCredentials;
+
 use phpseclib\Net\SSH2;
 
 use Log;
@@ -77,6 +79,11 @@ class getportstats extends Command
             
             DeviceIPs::where('address', $port['ip'])->update(['port_id' => $dbport['id']]);
             
+            $deviceip = DeviceIPs::where('address', $port['ip'])->first();
+            
+            SSHCredentials::where('device_IP_id', $deviceip['id'])->whereNull('username')->delete();
+            
+            $deviceip = NULL;
         }
          
          $statdata = Helper::buildstats($portdata);

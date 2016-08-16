@@ -5,9 +5,14 @@ namespace App\Models;
 use Crypt;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SSHCredentials extends Model
+
 {
+    
+    use SoftDeletes;
+
     public $table = "SSH_Credentials";
     /**
      * The attributes that are mass assignable.
@@ -17,6 +22,8 @@ class SSHCredentials extends Model
     protected $fillable = [
         'username', 'password','device_IP_id','device_id'
     ];
+    
+    protected $dates = ['deleted_at'];
     
     public function IP()
     {
