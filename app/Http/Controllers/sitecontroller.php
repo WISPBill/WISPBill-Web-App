@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Helpers\Helper;
+
 use Auth;
 
 class sitecontroller extends Controller
@@ -25,19 +27,8 @@ class sitecontroller extends Controller
     public function create()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
-        $lat = Settings::where('setting_name', 'map lat')->first();
-        $lon = Settings::where('setting_name', 'map lon')->first();
-        $zoom = Settings::where('setting_name', 'map zoom')->first();
-
-        $lat = $lat['setting_value'];
-        $lon = $lon['setting_value'];
-        $zoom = $zoom['setting_value'];
-
-        $mapsettings = array(
-        "lat" => "$lat",
-        "lon" => "$lon",
-        "zoom" => "$zoom",
-        );
+         
+        $mapsettings = Helper::buildmapsettings();
 
         $key = $api['setting_value'];
         return view('site.new', compact('key','mapsettings'));
@@ -46,19 +37,8 @@ class sitecontroller extends Controller
     public function coverage()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
-        $lat = Settings::where('setting_name', 'map lat')->first();
-        $lon = Settings::where('setting_name', 'map lon')->first();
-        $zoom = Settings::where('setting_name', 'map zoom')->first();
-
-        $lat = $lat['setting_value'];
-        $lon = $lon['setting_value'];
-        $zoom = $zoom['setting_value'];
-
-        $mapsettings = array(
-        "lat" => "$lat",
-        "lon" => "$lon",
-        "zoom" => "$zoom",
-        );
+        
+        $mapsettings = Helper::buildmapsettings();
 
         $key = $api['setting_value'];
         
@@ -109,19 +89,8 @@ class sitecontroller extends Controller
     public function map()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
-        $lat = Settings::where('setting_name', 'map lat')->first();
-        $lon = Settings::where('setting_name', 'map lon')->first();
-        $zoom = Settings::where('setting_name', 'map zoom')->first();
-
-        $lat = $lat['setting_value'];
-        $lon = $lon['setting_value'];
-        $zoom = $zoom['setting_value'];
-
-        $mapsettings = array(
-        "lat" => "$lat",
-        "lon" => "$lon",
-        "zoom" => "$zoom",
-        );
+        
+        $mapsettings = Helper::buildmapsettings();
 
         $key = $api['setting_value'];
         
@@ -167,19 +136,8 @@ class sitecontroller extends Controller
     public function mapcoverage()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
-        $lat = Settings::where('setting_name', 'map lat')->first();
-        $lon = Settings::where('setting_name', 'map lon')->first();
-        $zoom = Settings::where('setting_name', 'map zoom')->first();
-
-        $lat = $lat['setting_value'];
-        $lon = $lon['setting_value'];
-        $zoom = $zoom['setting_value'];
-
-        $mapsettings = array(
-        "lat" => "$lat",
-        "lon" => "$lon",
-        "zoom" => "$zoom",
-        );
+        
+        $mapsettings = Helper::buildmapsettings();
 
         $key = $api['setting_value'];
         

@@ -35,19 +35,8 @@ class leadcontroller extends Controller
     public function map()
     {
         $api = Settings::where('setting_name', 'geocoder API key')->first();
-        $lat = Settings::where('setting_name', 'map lat')->first();
-        $lon = Settings::where('setting_name', 'map lon')->first();
-        $zoom = Settings::where('setting_name', 'map zoom')->first();
-
-        $lat = $lat['setting_value'];
-        $lon = $lon['setting_value'];
-        $zoom = $zoom['setting_value'];
-
-        $mapsettings = array(
-        "lat" => "$lat",
-        "lon" => "$lon",
-        "zoom" => "$zoom",
-        );
+        
+        $mapsettings = Helper::buildmapsettings();
 
         $key = $api['setting_value'];
         $geoleads = Customer_locations::with('customer')->get();
@@ -62,19 +51,7 @@ class leadcontroller extends Controller
         $geoservice = Settings::where('setting_name', 'geocoder service')->first();
         $geoservice = $geoservice['setting_value'];
         
-        $lat = Settings::where('setting_name', 'map lat')->first();
-        $lon = Settings::where('setting_name', 'map lon')->first();
-        $zoom = Settings::where('setting_name', 'map zoom')->first();
-
-        $lat = $lat['setting_value'];
-        $lon = $lon['setting_value'];
-        $zoom = $zoom['setting_value'];
-
-        $mapsettings = array(
-        "lat" => "$lat",
-        "lon" => "$lon",
-        "zoom" => "$zoom",
-        );
+        $mapsettings = Helper::buildmapsettings();
         
         return view('lead.addlocation', compact('leads','total','geoservice','mapsettings'));
     }

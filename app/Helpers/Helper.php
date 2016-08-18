@@ -621,6 +621,26 @@ class Helper
 	 
           return($airOS);
 	}
+	
+	  public static function buildmapsettings()
+		{
+			
+			 $lat = Settings::where('setting_name', 'map lat')->first();
+        $lon = Settings::where('setting_name', 'map lon')->first();
+        $zoom = Settings::where('setting_name', 'map zoom')->first();
+
+        $lat = $lat['setting_value'];
+        $lon = $lon['setting_value'];
+        $zoom = $zoom['setting_value'];
+
+        $mapsettings = array(
+        "lat" => "$lat",
+        "lon" => "$lon",
+        "zoom" => "$zoom",
+        );
+			
+			return($mapsettings);
+		}
     
 }
 
