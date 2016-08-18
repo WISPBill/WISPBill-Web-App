@@ -82,6 +82,9 @@ Route::get('/viewdevices', 'devicecontroller@index');
 Route::get('/viewdevices/{id}', 'devicecontroller@show');
 Route::get('/newnas', 'devicecontroller@radiusnewnas');
 Route::post('/newnas', 'devicecontroller@storeradiusnewnas');
+//Customer Management Routes
+Route::get('/addcustomerlocation', 'customercontroller@addlocation');
+Route::post('/addcustomerlocation', 'leadcontroller@storeaddlocation');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');

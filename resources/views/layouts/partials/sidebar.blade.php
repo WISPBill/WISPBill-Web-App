@@ -35,6 +35,12 @@
                     <li><a href="/addleadbilling">Add Billing Info to a Lead</a></li>
                 </ul>
             </li>
+          <li class="treeview">
+                <a href="#"><i class='fa fa-users'></i> <span>Customer Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="/addcustomerlocation">Add a Location to a Customer</a></li>
+                </ul>
+            </li>
              <li class="treeview">
           <a href="#"><i class="fa fa-binoculars"></i> <span>Monitoring</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
