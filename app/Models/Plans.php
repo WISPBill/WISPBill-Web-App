@@ -20,4 +20,9 @@ class Plans extends Model
     {
         return $this->hasMany('App\Models\Plan_attributes','plan_id','id');
     }
+    
+    public function customer_locations()
+    {
+        return $this->belongsToMany('App\Models\Customer_locations', 'customer_location_plans', 'plan_id', 'customer_location_id')->withPivot('mode')->withTimestamps();
+    }
 }

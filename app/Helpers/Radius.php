@@ -9,6 +9,10 @@ use mysqli;
 
 use Crypt;
 
+use App\Models\Plans;
+
+use App\Models\Customer_info;
+
 class Radius
 {
     
@@ -50,6 +54,97 @@ class Radius
         } else {
             $result = false;
         }
+
+        $conn->close();
+
+		return $result;
+    	
+    }
+	
+	public static function createuserwithplan($id,$planid,$locid) { 
+        
+        $conn = Radius::buildconnection();
+	
+				$plan = Plans::findorfail($planid);
+	
+				$customer = Customer_info::findorfail($id);
+	
+				$email = $customer->email;
+	
+				$user = "$locid"."$email"."$planid";
+	
+				$radiuspass = substr( md5(rand()), 0, 7); // Not meant to be secure as Radius should enforce a connection limit
+    	
+        $sql = "INSERT INTO radcheck VALUES (NULL, '$user', 'Cleartext-Password', ':= ', '$radiuspass');";
+
+        if ($conn->query($sql) === TRUE) {
+            $result = true;
+        } else {
+            $result = false;
+					
+						return $result;
+        }
+	
+				foreach($plan->attributes as $attribute){
+					
+					if($attribute['attribute_name'] == 'Download Rate in Mbps'){
+                    
+              $downrate = $attribute['attribute_value']*1000000;
+						
+						$sql = "INSERT INTO radreply VALUES (NULL, '$user', 'WISPr-Bandwidth-Max-Down', ':=', '$downrate');";
+
+     		   if ($conn->query($sql) === TRUE) {
+     		       $result = true;
+    		    } else {
+      		      $result = false;
+					
+								return $result;
+        		}
+                    
+         	}elseif($attribute['attribute_name'] == 'Upload Rate in Mbps'){
+                    
+              $uprate = $attribute['attribute_value']*1000000;
+						
+						$sql = "INSERT INTO radreply VALUES (NULL, '$user', 'WISPr-Bandwidth-Max-Up', ':=', '$uprate');";
+
+     		   if ($conn->query($sql) === TRUE) {
+     		       $result = true;
+    		    } else {
+      		      $result = false;
+					
+								return $result;
+        		}
+                    
+					}elseif($attribute['attribute_name'] == 'Download Data Cap in GB'){
+                    
+               $downcap = $attribute['attribute_value']*1000000000;
+						
+						$sql = "INSERT INTO radreply VALUES (NULL, '$user', 'Acct-Output-Octets', ':=', '$downcap');";
+
+     		   if ($conn->query($sql) === TRUE) {
+     		       $result = true;
+    		    } else {
+      		      $result = false;
+					
+								return $result;
+        		}
+                    
+       	  }elseif($attribute['attribute_name'] == 'Upload Data Cap in GB'){
+                    
+               $upcap = $attribute['attribute_value']*1000000000;
+						
+						$sql = "INSERT INTO radreply VALUES (NULL, '$user', 'Acct-Input-Octets', ':=', '$upcap');";
+
+     		   if ($conn->query($sql) === TRUE) {
+     		       $result = true;
+    		    } else {
+      		      $result = false;
+					
+								return $result;
+        		}
+                    
+                }
+				}
 
         $conn->close();
 

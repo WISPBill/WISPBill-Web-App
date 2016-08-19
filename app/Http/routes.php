@@ -85,6 +85,9 @@ Route::post('/newnas', 'devicecontroller@storeradiusnewnas');
 //Customer Management Routes
 Route::get('/addcustomerlocation', 'customercontroller@addlocation');
 Route::post('/addcustomerlocation', 'leadcontroller@storeaddlocation');
+Route::get('/activatecustomerlocation', 'customercontroller@addplan');
+Route::post('/activatecustomerlocation', 'customercontroller@storeaddplan');
+Route::get('/activatecustomerlocationdata/{id}/data.txt', 'customercontroller@displaylocations');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');

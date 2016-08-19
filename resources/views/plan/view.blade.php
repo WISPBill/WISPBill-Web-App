@@ -3,11 +3,11 @@
 	 <link rel="stylesheet" href="{{ asset('/plugins/datatables/dataTables.bootstrap.css') }}">
 @endsection
 @section('htmlheader_title')
-	View Lead's
+	View Plan's
 @endsection
 
 @section('contentheader_title')
-	View Lead's
+	View Plan's
 @endsection
 
 @section('main-content')

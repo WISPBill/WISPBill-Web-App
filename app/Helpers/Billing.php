@@ -90,6 +90,31 @@ class Billing
     	}
     	
     }
+	
+	public static function subscribeusertoplan($userid,$planid) { 
+    	$service = 'Stripe'; // Placeholder
+    	
+    	if($service == 'Stripe'){
+    		
+    		$stripekey = Settings::where('setting_name', 'stripe secret key')->first();
+    		$stripekey = $stripekey['setting_value'];
+    		
+    		\Stripe\Stripe::setApiKey("$stripekey");
+				
+				$customer = Customer_info::findorfail($userid);
+				
+				$stripeid = $customer->billing_id;
+				
+				\Stripe\Subscription::create(array(
+  				"customer" => "$stripeid",
+ 			 		"plan" => "$planid"
+				));
+          
+    	}else{
+    		// Do Nothing
+    	}
+    	
+    }
 
 }
 

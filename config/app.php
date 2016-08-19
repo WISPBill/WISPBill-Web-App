@@ -210,6 +210,7 @@ return [
         'AdminLTE' => Acacha\AdminLTETemplateLaravel\Facades\AdminLTE::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'WISPBillGEO' => App\Helpers\Helper::class,
+        'Helper' => App\Helpers\Helper::class,
         'Billing' => App\Helpers\Billing::class,
 
     ],
