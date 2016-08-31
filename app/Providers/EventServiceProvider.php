@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewSSH' => [
             'App\Listeners\DiscoverDevice',
         ],
+        'App\Events\NewStripeWebhook' => [
+            'App\Listeners\StripeWebhook ',
+        ],
     ];
 
     /**

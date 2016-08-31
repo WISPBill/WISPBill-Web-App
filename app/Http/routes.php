@@ -88,6 +88,8 @@ Route::post('/addcustomerlocation', 'leadcontroller@storeaddlocation');
 Route::get('/activatecustomerlocation', 'customercontroller@addplan');
 Route::post('/activatecustomerlocation', 'customercontroller@storeaddplan');
 Route::get('/activatecustomerlocationdata/{id}/data.txt', 'customercontroller@displaylocations');
+//Webhook Route
+Route::post('/webhook/{service}','webhookcontroller@verfiyhook');
 //Placeholder routes
 Route::get('/customer/', function () {
     return view('lander');

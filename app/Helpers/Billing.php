@@ -115,6 +115,39 @@ class Billing
     	}
     	
     }
+    
+    public static function verfiystripeevent($id) { 
+    		
+        $stripekey = Settings::where('setting_name', 'stripe secret key')->first();
+    	$stripekey = $stripekey['setting_value'];
+    		
+    	\Stripe\Stripe::setApiKey("$stripekey");
+    	
+    	
+    	try {
+    	    
+    	\Stripe\Event::retrieve("$id");
+    	
+    	} catch (\Stripe\Error\InvalidRequest $e) {
+    	    
+    	    return false;
+    	    
+    	} 
+    	
+    	return true;
+    	   
+    }
+    
+    public static function retrievestripeevent($id) { 
+    		
+        $stripekey = Settings::where('setting_name', 'stripe secret key')->first();
+    	$stripekey = $stripekey['setting_value'];
+    		
+    	\Stripe\Stripe::setApiKey("$stripekey");
+    	    
+    	return (\Stripe\Event::retrieve("$id"));
+    	
+    }
 
 }
 
