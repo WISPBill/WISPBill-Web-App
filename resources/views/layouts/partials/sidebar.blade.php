@@ -38,6 +38,11 @@
           <li class="treeview">
                 <a href="#"><i class='fa fa-users'></i> <span>Customer Management</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
+                    <li class="treeview">
+          <a href="#"><i class="fa fa-tasks"></i> <span>Radius Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="/viewcredentials">View PPPOE Credentials</a></li>
+          </ul></li>
                     <li><a href="/addcustomerlocation">Add a Location to a Customer</a></li>
                     <li><a href="/activatecustomerlocation">Add Service Plan to Location</a></li>
                 </ul>

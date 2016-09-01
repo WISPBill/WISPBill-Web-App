@@ -10,11 +10,11 @@
   </style>
 @endsection
 @section('htmlheader_title')
-	Enroll a Customer in a Plan
+	View PPPOE Credentials
 @endsection
 
 @section('contentheader_title')
-	Enroll a Customer in a Plan
+	View PPPOE Credentials
 @endsection
 
 @section('main-content')
@@ -34,7 +34,7 @@
         </ul>
     </div>
 	  @endif
-			<form role="form" action="/activatecustomerlocation"method="post">
+			<form role="form" action="/viewcredentials"method="post">
                 <!-- text input -->
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <table id="table" class="table table-bordered table-striped">
@@ -110,55 +110,7 @@
                 </div>
                 
                 <br></br>
-                <h4>Select a Plan</h4>
-                 <table id="table3" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                	<th>Select</th>
-				  <th>Name</th> 
-				  <th>Price</th>
-                  <th>Upload Speed</th>
-                    <th>Download Speed</th>
-                        <th>Upload Data Cap</th>
-				  <th>Download Data Cap</th> 
-                </tr>
-                </thead>
-                <tbody>
-             @foreach($plans as $plan)
-                 <tr><td><input type='radio' name='planid' value='{{$plan->id}}' unchecked></td>
-                 	<td>{{ $plan->name}}</td>
-                 <td>{{ $plan->price}}</td>
-             	<td>{{$planattributevalues[$plan->id]['uprate']}}</td>
-             	<td>{{$planattributevalues[$plan->id]['downrate']}}</td>
-             	<td>{{$planattributevalues[$plan->id]['upcap']}}</td>
-             	<td>{{$planattributevalues[$plan->id]['downcap']}}</td>
-               </tr>
-               
-             @endforeach
-              </tbody>
-                <tfoot>
-               <tr>
-               		<th>Select</th>
-				  <th>Name</th> 
-				  <th>Price</th>
-                  <th>Upload Speed</th>
-                    <th>Download Speed</th>
-                        <th>Upload Data Cap</th>
-				  <th>Download Data Cap</th> 
-                </tr>
-                </tfoot>
-              </table>
-              
-              <br></br>
-                
-                <div class="form-group">
-                  <label>Billing Mode</label>
-					
-                  <select class="form-control"  name='Mode' id="location" required>
-					<option value='' selected disabled>Please Select an Option</option>
-                <option value='Radius'>Radius</option>
-                  </select>
-                </div>
+
                 
            @if ($verifypin == true)
            <div class="form-group has-feedback">
@@ -233,7 +185,7 @@ function handleClick(myRadio) {
       "info": true,
       "autoWidth": true,
       "ajax": {
-        "url":	"/customerlocationdata/"+id+"/activate/data.txt",
+        "url":	"/customerlocationdata/"+id+"/radius/data.txt",
       	"dataSrc": '',
       },
       

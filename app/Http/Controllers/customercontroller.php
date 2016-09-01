@@ -106,9 +106,9 @@ class customercontroller extends Controller
         return view('customer.addplan', compact('customers','verifypin','plans','planattributevalues'));
     }
     
-    public function displaylocations($id)
+    public function displaylocations($id,$mode)
     {
-      
+        
       $data =  Customer_info::findorfail($id);
       
       $locdata = array();
@@ -146,7 +146,29 @@ class customercontroller extends Controller
           
           $results['updated_at'] = $location->updated_at->toDateString();
           
+          if($mode == "radius"){
+            
+            foreach($location->plans as $plan){
+              
+              if($plan->pivot->mode == "Radius"){
+                
+                array_push($locdata, $results);
+                
+                break;
+                
+              }
+            
+            }
+            
+          }elseif($mode == "activate"){
+          
            array_push($locdata, $results);
+           
+          }else{
+            
+            abort(400);
+            
+          }
           
         }
 
@@ -209,5 +231,69 @@ class customercontroller extends Controller
         $customerloc->save();
         
         return redirect("/");
+    }
+    
+    public function viewcredentials()
+    {
+        $customers = Customer_info::whereNotNull('billing_id')->has('locations')->get();
+        
+        $verifypin = Settings::where('setting_name', 'Customer PIN')->first();
+        $verifypin = $verifypin['setting_value'];
+        
+        return view('customer.viewcredentials', compact('customers','verifypin'));
+    }
+    
+    public function getcredentials(Request $request)
+    {
+      
+      $verifypin = Settings::where('setting_name', 'Customer PIN')->first();
+      $verifypin = $verifypin['setting_value'];
+        
+        if($verifypin == true){
+          $pin = 'required';
+        }
+        
+         $this->validate($request, [
+        'id' => 'required|numeric',
+        'locid' => 'required|numeric',
+        'pin' => $pin,
+        ]);
+        
+        $customer = Customer_info::findorfail($request['id']);
+        
+        if (Hash::check($request['pin'], $customer->pin)) {
+    
+        }else{
+          
+        return redirect('/viewcredentials')->withErrors('PIN is not Valid')->withInput();
+          
+        }
+        
+        $location = Customer_locations::where('id', $request['locid'])->with(['plans' => function ($query) {
+          
+          $query->where('mode', 'Radius');
+
+        }])->first();
+        
+        $results = array();
+        
+        foreach($location->plans as $plan){
+          
+          $credential = Radius::getcredentials($request['id'],$plan->id,$request['locid']);
+          
+          if($credential == false){
+            
+            abort(500, 'Unexpected Error Retrieving Credentials from Radius Database');
+            
+          }
+
+          $plan = Plans::findorfail($plan->id); // For some reason I could not just call $plan->name I had to load the plan this way
+          
+          $credential['name'] = $plan->name;
+          
+          array_push($results, $credential);
+        }
+      
+         return view('customer.showcredentials', compact('results'));
     }
 }

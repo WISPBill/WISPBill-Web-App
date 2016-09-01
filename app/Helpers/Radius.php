@@ -151,6 +151,44 @@ class Radius
 		return $result;
     	
     }
+    
+    public static function getcredentials($id,$planid,$locid) { 
+        
+        $conn = Radius::buildconnection();
+	
+				$plan = Plans::findorfail($planid);
+	
+				$customer = Customer_info::findorfail($id);
+	
+				$email = $customer->email;
+	
+				$user = "$locid"."$email"."$planid";
+	
+		
+    	
+        $sql = "SELECT * FROM `radcheck` WHERE `username` = '$user'";
+        
+        $data = $conn->query($sql);
+        
+        if($data == false){
+            return false;
+        }else{
+        
+            while ($row = $data->fetch_assoc()) {
+	
+	            $result = array(
+	                'username' => $user,
+	                'password' => $row['value'],
+	            );
+	        
+            }	
+        }
+        
+        $conn->close();
+
+		return $result;
+    	
+    }
 
 }
 
