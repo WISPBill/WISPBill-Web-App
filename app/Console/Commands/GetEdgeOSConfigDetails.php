@@ -8,6 +8,10 @@ use App\Models\Devices;
 
 use App\Models\DHCPServers;
 
+use App\Models\PPPOEServers;
+
+use App\Models\DevicePorts;
+
 use App\Models\IPLeases;
 
 use phpseclib\Net\SSH2;
@@ -103,6 +107,46 @@ class GetEdgeOSConfigDetails extends Command
                     'server_id' => $server['id'],
                     ]);
             }
+        }
+        
+        $pppoe = Helper::getpppoeserver($data);
+        
+        if($pppoe == false){
+            //Nothing 
+        }else{
+            
+            $ppopeserver = PPPOEServers::firstOrCreate([
+                    'name' => NULL,
+                    'start' => $pppoe['start'],
+                    'stop' => $pppoe['stop'],
+                    'radius' => $pppoe['server'],
+                    'dns1' => $pppoe['dns1'],
+                    'dns2' => $pppoe['dns2'],
+                    'device_id' => $deviceid,
+                    ]);
+                    
+            foreach($pppoe['interface'] as $interface){
+                
+                $ports = $device->ports;
+                
+                foreach($ports as $port){
+                    
+                    if($port['name'] == $interface){
+                        
+                        $port = DevicePorts::find($port['id']);
+                        
+                        $port->pppoe_server_id = $ppopeserver['id'];
+                        
+                        $port->save();
+                        
+                    }else{
+                        
+                    }
+                    
+                }
+                
+            }
+            
         }
     }
 }

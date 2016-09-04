@@ -641,6 +641,58 @@ class Helper
 			
 			return($mapsettings);
 		}
+		
+		public static function getpppoeserver($data)
+    {
+        
+        $output = preg_match("/\Qpppoe-server\E.{1,}\Qsnmp\E/s", $data, $result1);
+    
+        if($output == false){
+            
+            return false;
+            
+        }
+        
+        $config = str_replace(array("\r","\n")," ",$result1[0]);
+    
+        $patterns = array(
+        	"server" => "/\Qradius-server\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/", 
+        	"start" => "/\Qstart\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/", 
+    	    "stop" => "/\Qstop\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/", 
+    	    "dns1" => "/\Qserver-1\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/", 
+    	    "dns2" => "/\Qserver-2\E\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/", 
+    	    "interface" => "/\Qinterface\E\s(\S{1,12})/",
+    	);
+    
+        $results = array();
+    
+        foreach($patterns as $key => $pattern){
+    	
+    	    if($key == 'interface'){
+    		
+    		    $output = preg_match_all ($pattern, $config, $result);
+    		
+        	}else{
+    
+        		$output = preg_match($pattern, $config, $result);
+    	
+        	}
+    	
+        	if($output == false){
+    		
+        		$results["$key"] = NULL; 
+    		
+        	}else{
+    
+        		$results["$key"] = $result[1];
+    			
+        	}
+    	
+        }
+        
+        return($results);
+       
+    }
     
 }
 

@@ -13,7 +13,7 @@ class DevicePorts extends Model
      * @var array
      */
     protected $fillable = [
-        'readable_name', 'name','mac','device_id'
+        'readable_name', 'name','mac','device_id','pppoe_server_id'
     ];
     
     public function ips()
@@ -34,5 +34,10 @@ class DevicePorts extends Model
     public function DHCP_Servers()
     {
         return $this->hasMany('App\Models\DHCPServers','port_id','id');
+    }
+    
+     public function PPPOE_Server()
+    {
+        return $this->belongsTo('App\Models\PPPOEServers','pppoe_server_id','id');
     }
 }

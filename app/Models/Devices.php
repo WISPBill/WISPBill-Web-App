@@ -36,4 +36,9 @@ class Devices extends Model
         return $this->hasMany('App\Models\RadioData','device_id','id');
     }
     
+    public function PPPOE_Servers()
+    {
+        return $this->hasMany('App\Models\PPPOEServers','device_id','id');
+    }
+    
 }
