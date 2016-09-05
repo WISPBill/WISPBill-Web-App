@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\DiscoverDevice',
         ],
         'App\Events\NewStripeWebhook' => [
-            'App\Listeners\StripeWebhook ',
+            'App\Listeners\StripeWebhook',
         ],
     ];
 

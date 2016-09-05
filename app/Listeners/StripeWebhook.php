@@ -30,6 +30,20 @@ class StripeWebhook
     {
         
         $id = $event->id;
+        
+        echo "fgfrg";
+        
+        $event = Billing::retrievestripeevent($id);
+        
+        $type = $event->type; 
+        
+        if($type == "invoice.payment_failed"){
+            //Failed Invoice
+        }elseif($type == "invoice.payment_succeeded"){
+            //Successful Invoice
+        }elseif($type == "invoice.created"){
+            // Invoice Created
+        }
     }
     
 }
