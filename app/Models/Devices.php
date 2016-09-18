@@ -13,7 +13,7 @@ class Devices extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type','model','manufacturer','mac','serial_number','os','version','revision'
+        'name', 'type','model','manufacturer','mac','serial_number','os','version','revision','customer_location_id'
     ];
     
     public function ports()
@@ -39,6 +39,11 @@ class Devices extends Model
     public function PPPOE_Servers()
     {
         return $this->hasMany('App\Models\PPPOEServers','device_id','id');
+    }
+    
+    public function customer_location()
+    {
+        return $this->belongsTo('App\Models\Customer_locations','customer_location_id','id');
     }
     
 }

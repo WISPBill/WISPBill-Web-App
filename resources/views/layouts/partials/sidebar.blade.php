@@ -43,7 +43,12 @@
           <ul class="treeview-menu">
             <li><a href="/viewcredentials">View PPPOE Credentials</a></li>
           </ul></li>
-                    <li><a href="/addcustomerlocation">Add a Location to a Customer</a></li>
+           <li class="treeview">
+          <a href="#"><i class="fa fa-map-marker"></i> <span>Location Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="/addcustomerlocation">New Location</a></li>
+            <li><a href="/adddevicecustomerlocation">Attach A Device</a></li>
+          </ul></li>
                     <li><a href="/activatecustomerlocation">Add Service Plan to Location</a></li>
                 </ul>
             </li>

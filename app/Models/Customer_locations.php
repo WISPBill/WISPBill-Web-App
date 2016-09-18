@@ -25,4 +25,9 @@ class Customer_locations extends Model
     {
         return $this->belongsToMany('App\Models\Customer_locations', 'customer_location_plans', 'customer_location_id', 'plan_id')->withPivot('mode')->withTimestamps();
     }
+    
+    public function devices()
+    {
+        return $this->hasMany('App\Models\Devices','customer_location_id','id');
+    }
 }

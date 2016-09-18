@@ -18,6 +18,8 @@ use App\Models\Settings;
 
 use App\Models\Customer_locations;
 
+use App\Models\Devices;
+
 use App\Helpers\Helper;
 
 use App\Helpers\Billing;
@@ -160,7 +162,7 @@ class customercontroller extends Controller
             
             }
             
-          }elseif($mode == "activate"){
+          }elseif($mode == "activate" or $mode == "device"){
           
            array_push($locdata, $results);
            
@@ -295,5 +297,53 @@ class customercontroller extends Controller
         }
       
          return view('customer.showcredentials', compact('results'));
+    }
+    
+     public function adddevicelocation()
+    {
+        $customers = Customer_info::whereNotNull('billing_id')->has('locations')->get();
+        
+        $devices = Devices::has('customer_location', '<', 1)->get();
+        
+        $verifypin = Settings::where('setting_name', 'Customer PIN')->first();
+        $verifypin = $verifypin['setting_value'];
+        
+        return view('customer.adddevicelocation', compact('customers','verifypin','devices'));
+    }
+    
+    public function storeadddevicelocation(Request $request)
+    {
+        
+      $verifypin = Settings::where('setting_name', 'Customer PIN')->first();
+      $verifypin = $verifypin['setting_value'];
+        
+        if($verifypin == true){
+          $pin = 'required';
+        }
+        
+         $this->validate($request, [
+        'id' => 'required|numeric',
+        'locid' => 'required|numeric',
+        'deviceid' => 'required|numeric',
+        'pin' => $pin,
+        ]);
+        
+        $customer = Customer_info::findorfail($request['id']);
+        
+        if (Hash::check($request['pin'], $customer->pin)) {
+    
+        }else{
+          
+        return redirect('/adddevicecustomerlocation')->withErrors('PIN is not Valid')->withInput();
+          
+        }
+        
+        $device = Devices::findorfail($request['deviceid']);
+        
+        $device->customer_location_id = $request['locid'];
+        
+        $device->save();
+        
+        return redirect("/");
     }
 }
