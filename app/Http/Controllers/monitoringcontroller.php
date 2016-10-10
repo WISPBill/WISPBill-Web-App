@@ -84,31 +84,25 @@ class monitoringcontroller extends Controller
      public function displayportdata($id,$timeframe)
     {
       
-      $data = PortData::where('port_id', $id)->where('created_at','>=', $timeframe)->get();
-      
-      $output = array();
-      
+      $data = PortData::where('port_id', $id)->where('created_at','>=', $timeframe)->get(['created_at','rx_rate','tx_rate']);
+     
       $outputfile = '';
       
       $outputheaders=array('Datetime','Rx Rate','Tx Rate');
+
+      $outputfile .= implode(',', $outputheaders);
+      $outputfile.= "\n";
+      $outputdata = array();
       
-      array_push($output, $outputheaders);
-      
-      foreach($data as $row){
-          
-          $outputdata = array($row['created_at'], $row['rx_rate']*8/1000000, $row['tx_rate']*8/1000000);
-          
-          array_push($output, $outputdata);
-          
-      }
-      
-      foreach($output as $outputrow){
-          
+     foreach($data as $datarow){
+
+          $datarow = $datarow->toArray();
+          $outputrow = array($datarow['created_at'], $datarow['rx_rate']*8/1000000, $datarow['tx_rate']*8/1000000);
           $outputfile .= implode(',', $outputrow);
           $outputfile.= "\n";
           
       }
-      
+        
           $headers = array(
       'Content-Type' => 'text/csv',
       'Content-Disposition' => 'attachment; filename="Data.csv"',
