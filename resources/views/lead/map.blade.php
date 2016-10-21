@@ -10,6 +10,8 @@
 
 @section('map-data')
 
+@if($heat == false)
+
   @foreach($geoleads as $geolead)
   <script>
   
@@ -17,5 +19,20 @@
         .addTo(map)
             .bindPopup('Name: {{$geolead->customer->name}} Email: {{$geolead->customer->email}} Phone: {{$geolead->customer->tel}}');
 </script>
-@endforeach
+  @endforeach
+  
+@elseif($heat == true)
+
+  <script>
+            
+    var heat = L.heatLayer([
+      @foreach($geoleads as $geolead)
+      
+    [{{$geolead->latitude}}, {{$geolead->longitude}},1], // lat, lng, intensity
+    
+   @endforeach
+], {radius: 30}).addTo(map);
+</script>
+
+@endif
 @endsection

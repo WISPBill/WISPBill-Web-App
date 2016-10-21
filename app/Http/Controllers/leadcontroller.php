@@ -34,13 +34,15 @@ class leadcontroller extends Controller
 
     public function map()
     {
+        $heat = false; // Heatmap or pins
+        
         $api = Settings::where('setting_name', 'geocoder API key')->first();
         
         $mapsettings = Helper::buildmapsettings();
 
         $key = $api['setting_value'];
         $geoleads = Customer_locations::with('customer')->get();
-        return view('lead.map', compact('key','geoleads','mapsettings'));
+        return view('lead.map', compact('key','geoleads','mapsettings','heat'));
     }
 
     public function addlocation()

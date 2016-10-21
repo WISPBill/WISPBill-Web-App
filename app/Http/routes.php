@@ -69,6 +69,7 @@ Route::post('/newplan', 'plancontroller@store');
 Route::get('/viewplans', 'plancontroller@index');
 //Marketing Routes 
 Route::get('/marketinglist', 'marketingcontroller@listsites');
+Route::get('/leadheatmap', 'marketingcontroller@leadmap');
 Route::post('/marketinglist', 'marketingcontroller@getlist');
 //Monitoring Routes
 Route::get('/newnetwork', 'monitoringcontroller@networkcreate');

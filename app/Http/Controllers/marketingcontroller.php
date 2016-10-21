@@ -8,9 +8,15 @@ use App\Http\Requests;
 
 use App\User;
 
+use App\Helpers\Helper;
+
 use App\Models\Locations;
 
 use App\Models\Settings;
+
+use App\Models\Customer_info;
+
+use App\Models\Customer_locations;
 
 class marketingcontroller extends Controller
 {
@@ -57,5 +63,18 @@ class marketingcontroller extends Controller
                 
         $data = json_decode($result);
         return view('marketing.mailist', compact('data','result'));
+    }
+    
+     public function leadmap()
+    {
+        $heat = true; // Heatmap or pins
+        
+        $api = Settings::where('setting_name', 'geocoder API key')->first();
+        
+        $mapsettings = Helper::buildmapsettings();
+
+        $key = $api['setting_value'];
+        $geoleads = Customer_locations::with('customer')->get();
+        return view('lead.map', compact('key','geoleads','mapsettings','heat'));
     }
 }
