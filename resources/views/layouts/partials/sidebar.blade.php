@@ -102,6 +102,7 @@
           <ul class="treeview-menu">
             <li><a href="/marketinglist">List Tower Mailing Addresses</a></li>
             <li><a href="/leadheatmap">Lead Heatmap</a></li>
+             <li><a href="/towerheatmap">Tower Coverage Heatmap</a></li>
           </ul>
         </li>
         </ul><!-- /.sidebar-menu -->

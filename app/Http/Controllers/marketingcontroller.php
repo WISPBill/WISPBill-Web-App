@@ -32,7 +32,20 @@ class marketingcontroller extends Controller
        
         $sites = Locations::wherenotNull('coverage')->get();
         
-        return view('marketing.list', compact('sites','total'));
+        $mode = 'mail';
+        
+        return view('marketing.list', compact('sites','total','mode'));
+    }
+    
+    public function listheatsites()
+    {
+        $total = Locations::wherenotNull('coverage')->count();   
+       
+        $sites = Locations::wherenotNull('coverage')->get();
+        
+        $mode = 'heat';
+        
+        return view('marketing.list', compact('sites','total','mode'));
     }
     
     public function getlist(Request $request)
@@ -76,5 +89,42 @@ class marketingcontroller extends Controller
         $key = $api['setting_value'];
         $geoleads = Customer_locations::with('customer')->get();
         return view('lead.map', compact('key','geoleads','mapsettings','heat'));
+    }
+    
+    public function heatmap(Request $request)
+    {
+         $this->validate($request, [
+        'siteid' => 'required',
+        ]);
+        
+        $api = Settings::where('setting_name', 'geocoder API key')->first();
+        
+        $mapsettings = Helper::buildmapsettings();
+
+        $key = $api['setting_value'];
+        
+        $baseurl = Settings::where('setting_name', 'Open-Mail-Marketing URL')->first();
+        $baseurl = $baseurl['setting_value'];
+        
+        $siteid = $request['siteid'];
+        
+        $site = Locations::find($siteid);
+        
+        $cov = $site->coverage;
+        
+        $url = "$baseurl/?geojson=$cov";
+                /* Run query using cURL */
+	
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $result = curl_exec($ch);
+                curl_close($ch);
+                
+        $data = json_decode($result);
+    
+        return view('marketing.heatmap', compact('data','result','key','mapsettings'));
     }
 }

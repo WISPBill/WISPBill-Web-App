@@ -3,18 +3,18 @@
 	 <link rel="stylesheet" href="{{ asset('/plugins/datatables/dataTables.bootstrap.css') }}">
 @endsection
 @section('htmlheader_title')
-	Select a Site to Get a Mailing List
+	Select a Site
 @endsection
 
 @section('contentheader_title')
-	Select a Site to Get a Mailing List
+	Select a Site
 @endsection
 
 @section('main-content')
 	<!-- general form elements disabled -->
           <div class="box box-warning">
             <div class="box-header with-border">
-            <h4>Select a Site to Get a Mailing List</h4>
+            <h4>Select a Site</h4>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -27,7 +27,15 @@
         </ul>
     </div>
 	  @endif
+	  
+	  @if ($mode == 'mail')
 			<form role="form" action="/marketinglist" method="post">
+			  
+		@elseif ($mode == 'heat')
+			  
+			  <form role="form" action="/towerheatmap" method="post">
+			    
+		@endif
                 <!-- text input -->
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                
